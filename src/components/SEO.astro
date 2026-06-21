@@ -34,7 +34,7 @@ const {
 } = Astro.props;
 
 const pageTitle = title === siteTitle ? siteTitle : `${title} | ${siteTitle}`;
-const site = Astro.site ?? new URL('https://logcat-io.pages.dev');
+const site = Astro.site ?? new URL('https://logcat-io.github.io');
 const siteUrl = site.toString().replace(/\/$/, '');
 const canonicalUrl = new URL(canonical ?? Astro.url.pathname, site).toString();
 // 이미지 미지정 시 사이트 기본 OG(자동 생성)로 폴백 — 모든 페이지가 OG 카드를 갖게.
