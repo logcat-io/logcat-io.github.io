@@ -25,7 +25,7 @@ legacy:
 
 3편의 숙제가 끝난 여기서 고려해야 할 점이 있다. 바로 worker가 PROCESSING으로 잡아둔 채 죽으면 그 이벤트는 누가 푸는지다.
 
-### 두 가지 죽음
+## 두 가지 죽음
 
 worker가 멈추는 방식은 둘이다.
 
@@ -34,7 +34,7 @@ worker가 멈추는 방식은 둘이다.
 
 둘을 다르게 다룬다.
 
-### 예고된 종료 — graceful shutdown
+## 예고된 종료 — graceful shutdown
 
 SIGTERM이 오면 즉시 멈추지 않는다. 잡고 있던 이벤트는 마무리하고, 새로 집는 것만 멈춘다.
 
@@ -60,7 +60,7 @@ srv.Shutdown(shutdownCtx) // HTTP는 받던 요청까지 끝내고 닫는다
 wg.Wait()                 // 진행 중 전송이 다 빠질 때까지 기다린다
 ```
 
-### 갑작스런 죽음 — recovery가 받는다
+## 갑작스런 죽음 — recovery가 받는다
 
 SIGKILL이나 크래시는 마무리할 틈을 안 준다. PROCESSING인 채로 이벤트가 남는다. graceful로는 못 막는다.
 
@@ -75,11 +75,11 @@ UPDATE outbox_events
 
 `processing_started_at`이 임계(lease timeout)를 넘으면 "이 worker는 죽었다"로 보고 회수한다. `claim_token`을 NULL로 비우는 게 핵심이다 — 3편의 fencing이 여기서 작동한다. 회수된 뒤 원래 worker가 살아 돌아와도, 토큰이 안 맞아 아무것도 못 쓴다.
 
-### lease timeout을 얼마로
+## lease timeout을 얼마로
 
 너무 짧으면 멀쩡히 처리 중인 worker를 죽은 걸로 오해해 회수한다(같은 이벤트가 둘에게 간다). 너무 길면 진짜 죽은 이벤트가 오래 묶여 있다. 전송 타임아웃보다 넉넉히 길게 잡는다. 정답은 환경마다 다르고, 여기선 학습 기본값으로 둔다. 전송 타임아웃의 2~3배를 기준으로 시작해보면 어떨까 생각한다.
 
-### 회고
+## 회고
 
 |   |   |
 | --- | --- |

@@ -198,7 +198,7 @@ UPDATE time_deals
 -   DB 커넥션 점유 시간은 UPDATE 쿼리 실행 시간 정도라 lock wait가 없다.
 -   Optimistic Lock의 약점인 "충돌 시 재시도" 비용은 Redis 1차 필터로 완화한다.
 
-#### 4-2. Redis 차감 방식 — Lua 스크립트
+### 4-2. Redis 차감 방식 — Lua 스크립트
 
 <table style="border-collapse: collapse; width: 100%;" border="1" data-ke-align="alignLeft" data-ke-style="style8"><tbody><tr><td>선택지</td><td>장점</td><td>단점</td></tr><tr><td>INCRBY/DECRBY 단독</td><td>단일 명령 자체는 원자적</td><td>"재고 확인 → 차감"이 두 단계로 분리되어 race 가능</td></tr><tr><td><b>Lua 스크립트</b></td><td><b>확인 + 차감을 단일 원자 연산으로 보장</b></td><td><b>스크립트 배포/캐싱 관리 필요</b></td></tr></tbody></table>
 
@@ -231,7 +231,7 @@ Redis 연산은 트랜잭션 밖:
 
 이 구조 덕분에, DB가 실패했을 때도 Redis를 **보상 트랜잭션**으로 원상복구할 수 있다. Redis와 DB를 한 트랜잭션으로 묶을 수 없기 때문에, 처음부터 "DB 기준으로 Redis를 보상·복구한다"는 관점을 택했다.
 
-#### 4-4. 1인 한도 검증 — UPSERT WHERE 조건부 원자 검증
+### 4-4. 1인 한도 검증 — UPSERT WHERE 조건부 원자 검증
 
 멱등성과 1인 한도는 SQL 레벨에서 닫았다.
 
@@ -255,7 +255,7 @@ WHERE time_deal_purchases.quantity + :quantity <= :maxPerUser;
 
 멱등성과 1인 한도는 애플리케이션 로직이 아니라 SQL 한 줄이 닫아줘야 한다고 본다.
 
-#### 4-5. 보상 트랜잭션 단일 진입점
+### 4-5. 보상 트랜잭션 단일 진입점
 
 보상 트랜잭션 코드를 여러 곳에 흩어두면 **누락**이 발생하기 쉽다.
 
@@ -267,7 +267,7 @@ WHERE time_deal_purchases.quantity + :quantity <= :maxPerUser;
 -   보상 로직 변경 시에도 한 곳에서만 수정
 -   “누락을 개발자 책임으로 남기지 않고, 구조에 책임을 지게 만든다”는 설계 의도
 
-#### 4-6. Redis–DB 정합성 복구 — 스케줄러
+### 4-6. Redis–DB 정합성 복구 — 스케줄러
 
 Redis와 DB는 결국 분리된 시스템이라, 프로세스 크래시 등 예외 상황에서 잠깐 불일치가 생길 수 있다.
 

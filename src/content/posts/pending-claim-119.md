@@ -22,7 +22,7 @@ legacy:
 
 1편에서 outbox에 PENDING이 쌓이는 데까지 만들었다. 집어서 보내는 주체는 없었다. 이번 편이 그 worker다.
 
-### claim — 고르는 순간 내 것으로 표시한다
+## claim — 고르는 순간 내 것으로 표시한다
 
 worker가 할 일은 단순하다. PENDING 하나를 골라 webhook으로 보낸다. 문제는 _어떻게 고르느냐_ 다.
 
@@ -58,7 +58,7 @@ PROCESSING은 "누가 집어갔다"는 표식이다. 다른 worker는 PENDING만
 
 이걸로 한 worker 안의 틈은 닫혔다. worker _여럿_이 정확히 같은 순간 같은 PENDING을 노리는 건 이 한 문장만으론 못 막는다. 그건 `SKIP LOCKED`의 몫이다. SKIP LOCKED 는 이미 잠긴 행을 건너뛰는 PostgreSQL 옵션이다. 3편에서 자세히 본다.
 
-### 전송 결과를 셋으로 나눈다
+## 전송 결과를 셋으로 나눈다
 
 webhook 응답이 다 같지 않다. 결과에 따라 다음 상태가 갈린다.
 
@@ -88,7 +88,7 @@ func classify(code int, callErr error, attemptNo, max int) Outcome {
 
 switch 하나가 재시도 정책의 전부다. 외부 호출(`callErr`, `code`)은 이 함수 밖, 트랜잭션 바깥에서 끝내고 결과만 넘긴다.
 
-### @Retry를 펼친다
+## @Retry를 펼친다
 
 0편에서 막연한 `@Retry` 한 줄이 _기록을 안 남겨서_ 통제가 안 됐다고 했다. 여기서 그걸 펼친다. 재시도를 어노테이션에 맡기지 않고 상태로 들고 있는다.
 
@@ -103,7 +103,7 @@ delivery_attempts : 시도마다 한 행 (응답코드, 에러, 시각)
 
 0편의 "발행은 로그를 봐야 안다"가, 여기서 "테이블을 보면 안다"로 바뀐다.
 
-### 회고
+## 회고
 
 |   |   |
 | --- | --- |

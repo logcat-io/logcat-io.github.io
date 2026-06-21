@@ -21,7 +21,7 @@ legacy:
   sourceHash: 'sha256:1424dc3e0b36ebf6ad72abed9190bcae1c0f39f7fa44732c994f64cc756f9df4'
 ---
 
-### 1. 문제 코드: 생성자 안에서 리스너 등록
+## 1. 문제 코드: 생성자 안에서 리스너 등록
 
 ```java
 public class EarlyPublish {
@@ -55,7 +55,7 @@ public class EarlyPublish {
 
 이 지점에서 이미 “생성자 도중 this escape”의 씨앗이 심어져 있다.
 
-### 2. 익명 내부 클래스가 실제로 풀리는 모습
+## 2. 익명 내부 클래스가 실제로 풀리는 모습
 
 소스 코드에서 익명 클래스는 편한 문법 설탕일 뿐이고, 컴파일러 입장에서는 실제 클래스로 풀어야 한다.  
   
@@ -104,7 +104,7 @@ public class EarlyPublish {
 
 -   리스너 객체가 EarlyPublish 인스턴스를 필드로 품고 있는 상태로 외부(EventBus)에 등록된다.
 
-### 3. 참조 체인으로 본 this escape
+## 3. 참조 체인으로 본 this escape
 
 위 구조를 참조 화살표로 그리면 이렇게 된다.  
   
@@ -144,7 +144,7 @@ public class EarlyPublish {
 
 -   참조 체인이 생긴 것 자체보다, 그 체인이 “언제” 만들어졌느냐(생성자 도중)에 this escape의 위험이 있다.
 
-### 4. 안전한 패턴으로 다시 쓰기
+## 4. 안전한 패턴으로 다시 쓰기
 
 같은 기능을 조금 더 안전하게 작성해 보자.
 

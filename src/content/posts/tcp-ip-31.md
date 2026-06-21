@@ -171,6 +171,6 @@ connect 함수는 다음과 같이 호출하여 프로토콜 스택에 정보를
   
   
 
-### 참고자료
+## 참고자료
 
 -   [성공과 실패를 결정하는 1%의 네트워크 원리](https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=243233851)

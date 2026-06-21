@@ -285,7 +285,7 @@ static final int hash(Object key) {
 
 이상 자바의 HashMap에 대해서 자세히 알아봤다.
 
-#### 참고
+## 참고
 
 -   [https://d2.naver.com/helloworld/831311](https://d2.naver.com/helloworld/831311)
 -   자바의 신 Vol.2

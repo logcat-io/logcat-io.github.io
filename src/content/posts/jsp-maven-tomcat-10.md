@@ -30,7 +30,7 @@ legacy:
 
 [IntelliJ IDEA – the Leading Java and Kotlin IDE](https://www.jetbrains.com/idea/)
 
-#### **\# 프로젝트 생성**
+## **\# 프로젝트 생성**
 
 먼저 **New Project** 로 새로운 프로젝트를 생성합니다.
 
@@ -44,7 +44,7 @@ legacy:
 
 ![](/images/posts/jsp-maven-tomcat-10/edited-screenshot-2023-04-29-at-12-17-26-am.png)
 
-#### **\# 톰캣(Tomcat) 설치**
+## **\# 톰캣(Tomcat) 설치**
 
 **JSP** 등 동적 웹 개발을 위해서는 웹 애플리케이션 서버가 필요하고, 일반적으로 많이 사용되는 **아파치 톰캣(Apache Tomcat)**을 사용하겠습니다.
 
@@ -66,7 +66,7 @@ https://tomcat.apache.org/whichversion.html
 
 ![](/images/posts/jsp-maven-tomcat-10/edited-screenshot-2023-04-29-at-12-37-11-am.png)
 
-#### **\# Tomcat jsp API 추가**
+## **\# Tomcat jsp API 추가**
 
 **Maven**에서 **Tomcat**을 사용하기 위해서 **Tomcat jsp API**를 **pom.xml**에 추가해 주어야 합니다.
 

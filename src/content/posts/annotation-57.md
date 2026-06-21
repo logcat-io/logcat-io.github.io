@@ -43,7 +43,7 @@ legacy:
 
 JDK 버전이 올라가면 어노테이션도 더 많이 늘어날 것이다.
 
-### @Override
+## @Override
 
 @Override 어노테이션은 메서드가 부모 클래스에서 정의된 메서드를 재정의(Overriding) 했음을 명시할 때 사용한다. 만약 부모 클래스에 많은 메서드가 있고, 자식 클래스에서 몇 개의 메서드를 overriding 했다고 생각하자. 이러한 경우 자식 클래스만 보고 부모 클래스의 어떤 메서드를 overriding 했는지 알기 어렵다. 이럴 때 @Override 어노테이션을 사용하면 명확한 구분을 할 수 있다. 그리고 만약 자식 클래스에서 overriding이 잘못된 경우 컴파일러에서 예외를 통해 알려주게 되는데, 이것은 위에서 설명한 컴파일러에게 정보를 알려주는 경우에 해당된다.
 
@@ -66,7 +66,7 @@ public class Hippo implements Animal {
 
 ![](/images/posts/annotation-57/screenshot-2023-11-09-at-2-13-27-pm.png)
 
-### @Deprecated
+## @Deprecated
 
 @Deprecated는 더 이상 사용하지 않는 클래스 혹은 메서드를 선언할 때 사용한다. 만약, @Deprecated 어노테이션이 선언된 클래스 혹은 메서드를 사용하면 경고가 나타난다.
 
@@ -95,7 +95,7 @@ public class Hippo implements Animal {
 
 ![](/images/posts/annotation-57/screenshot-2023-11-09-at-2-13-54-pm.png)
 
-### @SuppressWarnings
+## @SuppressWarnings
 
 @SuppressWarnings 컴파일 시 경고가 발생할 수 있는 상황에 컴파일러에게 경고가 발생할 수 있다는 것을 인지하고 있다고 알리는 것이다. 그래서 @SuppressWarnings 선언되어 있다면 경고를 나타내지 않는다.
 

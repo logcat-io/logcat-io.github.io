@@ -23,6 +23,8 @@
   font-weight: 700;
   letter-spacing: 0;
   line-height: 1.25;
+  /* TOC 앵커 이동 시 sticky 헤더(약 55px)에 안 가리게 */
+  scroll-margin-top: 84px;
 }
 
 .prose h2 {

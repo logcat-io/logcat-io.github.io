@@ -85,11 +85,11 @@ System.out.println(text1 == text5);
 true
 ```
 
-#### 정리
+## 정리
 
 String constant pool은 문자열 연산의 성능 향상과 메모리 절약을 하기 위해서 구현되었다. 그리고 JDK 7 이전에는 permgen 영역에 존재했으나, 이후에는 힙 영역 내부로 이동했다. 모든 String 객체가 상수 풀에 저장되는 것은 아니고, 문자열 리터럴을 통해 생성된 객체가 저장된다. 하지만 문자열 리터럴을 통해서 매번 String 객체를 생성하는 경우 상수 풀의 모든 문자열 객체를 검색해야 하기 때문에 오버헤드가 발생할 수 있다.
 
-#### 참고
+## 참고
 
 -   [https://www.geeksforgeeks.org/string-constant-pool-in-java/](https://www.geeksforgeeks.org/string-constant-pool-in-java/)
 -   [https://www.baeldung.com/java-string-constant-pool-heap-stack](https://www.baeldung.com/java-string-constant-pool-heap-stack)

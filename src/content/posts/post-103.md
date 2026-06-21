@@ -32,7 +32,7 @@ legacy:
   
 이 글은 수도권 66개 권역, 1,187개 행정동, 일 3만 건 규모의 배송 데이터를 지도 위에서 실시간으로 다루는 시스템을 설계하고 구현하면서 내렸던 판단들을 정리한 기록이다. 무엇을 만들었는가보다 왜 그렇게 설계했는가, 그리고 그 결과 수치가 어떻게 바뀌었는가에 집중한다.
 
-### TL;DR
+## TL;DR
 
 -   야간 배송 운영자가 “지금 3만 건이 어디에 얼마나 쌓여 있는지”를 한눈에 보기 위해, 행정동 GeoJSON 34MB를 프론트에서 직접 처리하던 구조를 서버 사전 계산 방식으로 바꾸어 초기 로딩을 약 6초에서 0.5초 수준으로 줄였다.
 -   배송 3만 건의 권역 매핑은 브라우저 연산 대신 공간 인덱스를 지원하는 DB 쿼리로 넘겨, 약 25분 걸리던 매핑 작업을 약 30초 수준으로 단축했다.
@@ -40,7 +40,7 @@ legacy:
 -   행정동/권역/배송 가능 지역을 하나의 테이블에 섞지 않고, 시각화 계층과 운영 계층으로 분리해 “화면에 보이는 것”과 “배차에 사용하는 데이터”를 명확히 나눴다.
 -   캐시 계층과 폴링 전략을 함께 설계해, 행정동 API는 626ms에서 131ms로, 마커 폴링은 232ms에서 99ms로 줄였다.
 
-### 1. 34MB GeoJSON을 프론트에서 처리할 것인가
+## 1. 34MB GeoJSON을 프론트에서 처리할 것인가
 
 수도권 행정동 경계 데이터는 정부에서 제공하는 GeoJSON 파일이고, 1,187개 행정동의 폴리곤 좌표가 담겨 있다. 초기 프로토타입에서는 이 34MB 파일을 프론트엔드에서 직접 로드해 파싱하고, 권역별로 폴리곤을 합치고, 공간 인덱스를 만드는 방식으로 접근했다.
 
@@ -48,7 +48,7 @@ legacy:
 
 그래서 프론트에서 반복 계산하는 대신, 서버에서 한 번 사전 계산한 결과를 API로 제공하는 구조로 바꿨다. 그 결과 초기 로딩은 6초에서 0.5초 수준으로 줄었고, 프론트에서는 34MB 원본 파일과 폴리곤 병합 라이브러리, 공간 인덱스 라이브러리를 제거할 수 있었다.
 
-### 2\. 배송 존 폴리곤을 TEXT로 저장할 것인가
+## 2\. 배송 존 폴리곤을 TEXT로 저장할 것인가
 
 배송 존의 경계를 DB에 저장할 때 가장 단순한 방식은 GeoJSON 문자열을 TEXT 컬럼에 저장하는 것이다. 이 방식은 프론트에 그대로 응답으로 내려주기 편하다는 장점이 있다. 
 
@@ -56,7 +56,7 @@ legacy:
 
 결국 응답용 TEXT 컬럼은 유지하되, 공간 쿼리용 컬럼을 별도로 두고 INSERT/UPDATE 시 자동 동기화하는 구조를 선택했다. 공간 인덱스를 적용한 뒤에는 3만 건 매핑을 약 30초 수준으로 줄일 수 있었고, 프론트의 공간 연산 의존성도 제거됐다.
 
-### 3. 3만 건을 어떻게 전송할 것인가
+## 3. 3만 건을 어떻게 전송할 것인가
 
 지도에 마커를 렌더링하려면 배송 건 3만 개의 좌표가 필요하다. 하지만 실제 배송 데이터에는 주문번호, 동, 호, 전화번호, 메모, 상태, 매핑 정보 등 총 17개 필드가 들어 있었고, 이를 전부 보내면 약 15MB 수준이 된다. 
 
@@ -64,7 +64,7 @@ legacy:
 
 이 구조로 바꾸자 3만 건 × 17필드였던 응답은 3만 건 × 5필드 수준으로 줄었고, 최종적으로 gzip 기준 약 623KB까지 낮출 수 있었다. 같은 위치를 다시 클릭하는 경우를 위해 프론트에는 위치 키 기반의 LRU 캐시도 두었다.
 
-### 4. 권역과 배송 가능 지역은 같은가
+## 4. 권역과 배송 가능 지역은 같은가
 
 이 시스템에서 “권역”과 “배송 가능 지역”은 같은 개념이 아니었다. 권역은 수도권 66개 시군구 단위의 고정된 시각화 기준이고, 서비스 가능 지역은 실제 배송 가능한 행정동 목록이다. 예를 들어 권역에는 포함되지만, 실제 배송 서비스는 제공하지 않는 지역이 존재할 수 있다. 
 
@@ -72,7 +72,7 @@ legacy:
 
 이렇게 분리하니 지도에서는 “권역 외곽선은 보이지만 내부가 비어 있는 지역”을 통해 배송 불가 지역을 직관적으로 표현할 수 있었다.
 
-### 5. 실시간 갱신은 어떤 방식이 맞는가
+## 5. 실시간 갱신은 어떤 방식이 맞는가
 
 배송 마커 데이터는 주문 취소나 추가가 발생하기 때문에 시간이 지나면 초기 로드 시점의 데이터와 달라진다. 이 문제를 해결하려면 수동 새로고침, 폴링, WebSocket 중 하나를 선택해야 했다. 구현 끝에 현재 단계에서는 30초 폴링이 가장 현실적이라고 판단했다. 그리고 WebSocket은 이후 배차 시뮬레이션 단계에서 자연스럽게 도입할 수 있도록 구조만 열어두었다.
 
@@ -80,7 +80,7 @@ legacy:
 
 그 결과 DB 부하를 크게 늘리지 않으면서도 약 99ms 응답을 유지할 수 있었고, 이후 배차 시뮬레이션 단계에서 WebSocket으로 자연스럽게 확장할 수 있는 구조를 확보했다.
 
-### 6. 캐시는 어디에 둘 것인가
+## 6. 캐시는 어디에 둘 것인가
 
 같은 데이터를 반복해서 조회하는 API들은 성격이 달랐다. 행정동 경계나 권역 외곽선은 거의 바뀌지 않지만, 마커 데이터는 30초 단위로 바뀔 수 있었다. 
 
@@ -94,7 +94,7 @@ legacy:
 
 <table style="border-collapse: collapse; width: 100%;" border="1" data-ke-align="alignLeft" data-ke-style="style4"><tbody><tr><td style="text-align: left; width: 31.3953%;">초기 로딩</td><td style="text-align: left; width: 31.6279%;">6초&nbsp;<span data-state="closed"><span></span></span></td><td style="text-align: left; width: 36.8605%;">131ms</td></tr><tr><td style="text-align: left; width: 31.3953%;">마커 로드</td><td style="text-align: left; width: 31.6279%;">232ms</td><td style="text-align: left; width: 36.8605%;">99ms, 캐시 응답 기준<span data-state="closed"><span><span><span><span></span></span></span></span></span></td></tr><tr><td style="text-align: left; width: 31.3953%;">프론트 JS 연산</td><td style="text-align: left; width: 31.6279%;">약 4초<span data-state="closed"><span></span></span></td><td style="text-align: left; width: 36.8605%;">0초</td></tr><tr><td style="text-align: left; width: 31.3953%;">초기 페이로드</td><td style="text-align: left; width: 31.6279%;">34MB&nbsp;<span data-state="closed"><span></span></span></td><td style="text-align: left; width: 36.8605%;">gzip 약 1.2MB<span data-state="closed"><span><span><span><span></span></span></span></span></span></td></tr><tr><td style="text-align: left; width: 31.3953%;">행정동&nbsp;API&nbsp;응답</td><td style="text-align: left; width: 31.6279%;">626ms</td><td style="text-align: left; width: 36.8605%;">131ms</td></tr><tr><td style="text-align: left; width: 31.3953%;">데이터의 기준 진실 공급원</td><td style="text-align: left; width: 31.6279%;">프론트 상수</td><td style="text-align: left; width: 36.8605%;">서버 DB<span data-state="closed"><span></span></span></td></tr></tbody></table>
 
-### 실제 동작 화면
+## 실제 동작 화면
 
 아래 영상은 실제로 동작하는 화면을 녹화한 것이다. 권역 외곽선, 배송 가능 지역, 배송 마커가 함께 표시되고, 초기 로딩과 마커 조회가 어떤 방식으로 구성되어 있는지 흐름을 확인할 수 있다.
 

@@ -53,13 +53,13 @@ FastAPI에서 비동기 백그라운드 작업을 할 때, 가볍게 BackgroundT
 
 ## BackgroundTasks
 
-#### 장점
+### 장점
 
 -   설정, 배포 심플함
 -   응답 먼저 주고 작업 이어서 실행 → 사용자 경험 좋음
 -   로컬/소규모 프로젝트에 적합
 
-#### 단점
+### 단점
 
 -   프로세스 죽으면 작업 소실
 -   재시도, 예약 없음
@@ -67,14 +67,14 @@ FastAPI에서 비동기 백그라운드 작업을 할 때, 가볍게 BackgroundT
 
 ## Celery
 
-#### 장점
+### 장점
 
 -   브로커 기반 내구성
 -   실패 시 자동 재시도, 백오프
 -   스케줄링, 우선순위 큐 등 강력한 기능
 -   대량/장시간 작업에 강함
 
-#### 단점
+### 단점
 
 -   브로커(Redis, RabbitMQ) 필요 → 인프라 복잡
 -   작은 작업엔 과함
@@ -113,7 +113,7 @@ FastAPI에서 비동기 백그라운드 작업을 할 때, 가볍게 BackgroundT
 
 ## 코드 예시
 
-#### BackgroundTasks
+### BackgroundTasks
 
 ```python
 from fastapi import FastAPI, BackgroundTasks
@@ -130,7 +130,7 @@ def create_order(order: dict, bg: BackgroundTasks):
     return {"ok": True, "order_id": order_id}
 ```
 
-#### Celery
+### Celery
 
 ```python
 # celery_app.py

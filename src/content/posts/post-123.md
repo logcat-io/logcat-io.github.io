@@ -24,7 +24,7 @@ legacy:
 
 이번 편은 관측이다.
 
-### 무엇을 보면 상태를 아나
+## 무엇을 보면 상태를 아나
 
 전송 시스템의 건강은 몇 개 숫자로 드러난다.
 
@@ -48,7 +48,7 @@ webhook_delivery_duration_seconds               histogram
 
 label은 `status`, `result`처럼 값이 몇 개로 한정된 것만. 개별 이벤트를 추적하고 싶으면 그건 메트릭이 아니라 로그의 일이다.
 
-### 로그는 구조화 + request\_id
+## 로그는 구조화 + request\_id
 
 `println`으로 문장을 흘리면 0편의 "로그를 다 봐야" 상태로 돌아간다. JSON으로 찍고, 요청마다 `request_id`를 붙인다.
 
@@ -77,7 +77,7 @@ func RequestLogger(logger *slog.Logger, next http.Handler) http.Handler {
 
 이러면 한 요청이 핸들러부터 worker까지 어디를 지났는지 키 하나로 따라간다. 메트릭이 "어디가 아픈지"를 보여주면, 로그는 "그 한 건이 무슨 일을 겪었는지"를 보여준다. 둘은 역할이 다르다.
 
-### 한 명령으로 재현한다
+## 한 명령으로 재현한다
 
 남이(또는 미래의 내가) 이걸 돌려보려면 절차가 짧아야 한다. Docker Compose 하나로 전부 띄운다.
 
@@ -93,7 +93,7 @@ docker compose up
 
 `unit`은 빌드·`gofmt`·`vet`·`-race` 테스트를, `integration`은 PostgreSQL service를 띄워 통합 테스트를 돌린다. 둘 다 초록이어야 머지된다 — 신뢰성을 사람이 매번 확인하지 않고 파이프라인이 대신 지킨다.
 
-### 회고 — 0편으로 돌아오기
+## 회고 — 0편으로 돌아오기
 
 |   |   |
 | --- | --- |

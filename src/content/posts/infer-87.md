@@ -26,7 +26,7 @@ legacy:
 
 이번 글에서는 infer에 대해서 정리하고, infer가 실제로 **타입스크립트 타입 시스템의 강력한 추론 엔진** 역할을 어떻게 하는지 살펴보려고 한다.
 
-### infer 란?
+## infer 란?
 
 infer는 **조건부 타입(Conditional Types)** 내부에서만 사용할 수 있는 키워드이다.
 
@@ -41,11 +41,11 @@ T extends SomeType<infer U> ? U : Fallback
 -   타입스크립트에게 "여기서 타입을 추론해서 U라는 이름으로 쓰겠다"라고 지시하는 것이다.
 -   함수의 매개변수, 반환 타입, 제네릭 인자 등 어떤 위치든 가능하다.
 
-### 공식 유틸리티 타입 보기
+## 공식 유틸리티 타입 보기
 
 타입스크립트가 기본 제공하는 유틸리티 타입들 대부분이 infer로 구현되어 있다. 몇 가지 예시를 직접 보자.
 
-#### ReturnType
+### ReturnType
 
 ```typescript
 type ReturnType<T> = T extends (...args: any[]) => infer R ? R : any;
@@ -57,7 +57,7 @@ type ReturnType<T> = T extends (...args: any[]) => infer R ? R : any;
 type A = ReturnType<() => number>;  // number
 ```
 
-#### Parameters
+### Parameters
 
 ```typescript
 type Parameters<T> = T extends (...args: infer P) => any ? P : never;
@@ -70,7 +70,7 @@ type A = Parameters<(x: string, y: number) => void>;
 // [x: string, y: number]
 ```
 
-#### ConstructorParameters
+### ConstructorParameters
 
 ```typescript
 type ConstructorParameters<T extends new (...args: any) => any> =
@@ -88,7 +88,7 @@ type Params = ConstructorParameters<typeof User>;
 // [id: number, name: string]
 ```
 
-#### InstanceType
+### InstanceType
 
 ```typescript
 type InstanceType<T extends new (...args: any) => any> =
@@ -102,9 +102,9 @@ type UserInstance = InstanceType<typeof User>;
 // User
 ```
 
-### 활용 예제
+## 활용 예제
 
-#### 깊은 Promise 풀기
+### 깊은 Promise 풀기
 
 비동기 함수에서 흔히 생기는 Promise<Promise<Promise<T>>> 같은 중첩을 풀어내려면 재귀적 infer가 유용하다.
 
@@ -115,7 +115,7 @@ type A = DeepAwaited<Promise<Promise<string>>>;
 // string
 ```
 
-#### 배열/튜플의 마지막 원소 타입 구하기
+### 배열/튜플의 마지막 원소 타입 구하기
 
 ```typescript
 type Last<T extends any[]> = T extends [...infer _, infer L] ? L : never;
@@ -126,7 +126,7 @@ type A = Last<[number, string, boolean]>;
 
 **...infer \_** 를 사용해 앞부분은 무시하고 마지막 원소만 추출할 수 있다.
 
-#### 함수 합성 유틸리티 만들기
+### 함수 합성 유틸리티 만들기
 
 두 함수가 연결될 때, 첫 번째 함수의 반환 타입과 두 번째 함수의 매개변수 타입이 맞아야 한다. 이를 타입으로 보장할 수 있다.
 
@@ -143,7 +143,7 @@ type Composed = Compose<F1, F2>;
 // (x: number) => boolean
 ```
 
-### infer의 제약과 주의할 점
+## infer의 제약과 주의할 점
 
 -   **조건부 타입 안에서만 사용 가능**: infer는 독립적으로 존재할 수 없다. 반드시 extends 조건문 안에서 등장해야 한다.
 -   **추론이 여러 후보로 갈리면 분배**: 유니온 타입에 대해서는 각각 추론을 시도한 뒤 유니온으로 합쳐진다.

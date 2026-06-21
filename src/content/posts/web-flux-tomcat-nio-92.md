@@ -27,7 +27,7 @@ legacy:
 
 이번 글에서는 WebFlux와 Tomcat NIO를 비교하며 WebFlux를 선택한 이유를 정리해 보겠습니다.
 
-### 아키텍처의 차이
+## 아키텍처의 차이
 
 -   **Tomcat NIO**
     -   Servlet API 기반으로 동작
@@ -37,7 +37,7 @@ legacy:
     -   Netty 같은 이벤트 루프 서버에 최적화
     -   서버-프레임워크-애플리케이션까지 **일관된 reactive 아키텍처**
 
-### Non-blocking 범위의 차이
+## Non-blocking 범위의 차이
 
 -   **Tomcat NIO**
     -   요청 처리 레벨에서 non-blocking 지원
@@ -46,7 +46,7 @@ legacy:
     -   Reactor 기반 프로그래밍 모델 제공
     -   **end-to-end non-blocking** 가능 (서버부터 비즈니스 로직까지)
 
-### 확장성(Scalability)
+## 확장성(Scalability)
 
 -   **Tomcat NIO**
     -   Thread Pool을 효율적으로 활용
@@ -55,19 +55,19 @@ legacy:
     -   소수의 이벤트 루프 쓰레드로 대규모 동시 요청 처리 가능
     -   특히 **IO bound 환경**에서 강력한 성능 발휘
 
-### Spring에서의 선택 이유
+## Spring에서의 선택 이유
 
 -   WebFlux는 단순히 NIO 서버 위에서 돌아가는 게 목적이 아님
 -   **Reactive Streams 프로그래밍 모델**을 애플리케이션 레벨에서 제공하는 것이 핵심
 -   따라서 “논블로킹 서버를 쓰고 싶다”면 Tomcat NIO로도 충분할 수 있지만, **Reactive 철학을 애플리케이션 전반에 녹이고 싶다면 WebFlux가 적합**
 
-### 나의 인사이트
+## 나의 인사이트
 
 개발자로서 중요한 건 단순히 기술적인 지원 여부가 아니라, **애플리케이션 전반에서 일관된 모델을 유지할 수 있느냐**였습니다.
 
 Tomcat NIO는 “웹 서버의 비동기 I/O”를 제공하는 데 초점이 맞춰져 있다면, WebFlux는 “프로그래밍 모델 자체를 reactive하게 바꾸자”라는 더 큰 목적이 있습니다. 저는 이 차이가 “왜 WebFlux를 선택해야 하는가?”라는 질문에 대한 가장 적절한 답이라고 생각합니다.
 
-### 참고 자료
+## 참고 자료
 
 -   [Spring WebFlux 공식 문서](https://docs.spring.io/spring-framework/reference/web/webflux.html)
 -   [Servlet 3.1 NIO 공식 문서](https://docs.oracle.com/javaee/7/tutorial/servlets012.htm)
