@@ -10,7 +10,7 @@ export async function GET(context: APIContext) {
   return rss({
     title: 'LogCat',
     description: 'Backend engineering notes by LogCat.',
-    site: context.site ?? 'https://logcat-io.github.io',
+    site: context.site ?? 'https://logcat-io.pages.dev',
     items: posts.map((post) => ({
       title: post.data.title,
       description: post.data.description,

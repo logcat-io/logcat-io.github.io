@@ -4,7 +4,7 @@ import { postHref } from '../lib/slug';
 
 // /llms.txt — GEO 보조. 발행 글 목록을 LLM 친화적 마크다운으로 정적 제공.
 export async function GET(context: APIContext) {
-  const site = (context.site?.toString() ?? 'https://logcat-io.github.io/').replace(/\/$/, '');
+  const site = (context.site?.toString() ?? 'https://logcat-io.pages.dev/').replace(/\/$/, '');
   const posts = await getPublishedPosts();
 
   const header = [
