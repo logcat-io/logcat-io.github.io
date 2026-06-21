@@ -1,8 +1,9 @@
 ---
-const repo = import.meta.env.PUBLIC_GISCUS_REPO;
-const repoId = import.meta.env.PUBLIC_GISCUS_REPO_ID ?? '';
-const category = import.meta.env.PUBLIC_GISCUS_CATEGORY ?? 'General';
-const categoryId = import.meta.env.PUBLIC_GISCUS_CATEGORY_ID ?? '';
+// giscus 설정 (전부 공개값 — 시크릿 아님). GitHub Discussions 가 백엔드, 내 DB·서버 0.
+const repo = 'logcat-io/logcat-io.github.io';
+const repoId = 'R_kgDOTAvntw';
+const category = 'Announcements';
+const categoryId = 'DIC_kwDOTAvnt84C_l1R';
 ---
 
 {
@@ -30,8 +31,9 @@ const categoryId = import.meta.env.PUBLIC_GISCUS_CATEGORY_ID ?? '';
 
 <style>
   .giscus-shell {
-    max-width: 760px;
+    max-width: 720px;
     margin: 0 auto;
-    padding: 0 var(--gutter) 64px;
+    padding: 8px var(--gutter) 64px;
+    border-top: 1px solid var(--hair);
   }
 </style>

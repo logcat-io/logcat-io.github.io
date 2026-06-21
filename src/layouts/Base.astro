@@ -55,6 +55,12 @@ const deployDate = new Intl.DateTimeFormat('en-CA', {
       article={article}
       isHome={isHome}
     />
+    <!-- GoatCounter — 쿠키리스 방문자 통계 (내 DB·서버 0) -->
+    <script
+      is:inline
+      data-goatcounter="https://logcat.goatcounter.com/count"
+      async
+      src="//gc.zgo.at/count.js"></script>
   </head>
   <body>
     <div class="site-wrap">
@@ -82,7 +88,7 @@ const deployDate = new Intl.DateTimeFormat('en-CA', {
         </div>
         <div class="status">
           <span class="dot"></span>
-          <span>BUILD OK · {postCount} POSTS · LAST DEPLOY {deployDate} · NO TRACKERS</span>
+          <span>BUILD OK · {postCount} POSTS · LAST DEPLOY {deployDate} · COOKIELESS ANALYTICS</span>
         </div>
       </footer>
     </div>
