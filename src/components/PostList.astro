@@ -1,0 +1,75 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import PixelSprite from './PixelSprite.astro';
+import PostCard from './PostCard.astro';
+import { sprites } from '../data/sprites';
+
+interface Props {
+  posts: CollectionEntry<'posts'>[];
+}
+
+const { posts } = Astro.props;
+---
+
+{
+  posts.length === 0 ? (
+    <div class="empty-shell">
+      <PixelSprite bitmap={sprites.terminalPrompt} px={5} />
+      <p class="empty-title">아직 공개된 글이 없습니다</p>
+      <p class="empty-sub mono">NO PUBLISHED ENTRIES — DRAFTS IN PROGRESS</p>
+    </div>
+  ) : (
+    <div class="post-list">
+      {posts.map((post, index) => (
+        <PostCard post={post} index={index} variant="mini" />
+      ))}
+    </div>
+  )
+}
+
+<style>
+  .post-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    border-top: 1px solid var(--hair);
+    border-left: 1px solid var(--hair);
+  }
+
+  .post-list :global(.post.mini) {
+    border-right: 1px solid var(--hair);
+    border-bottom: 1px solid var(--hair);
+  }
+
+  .empty-shell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    padding: 80px var(--gutter);
+    border-top: 1px solid var(--hair);
+    text-align: center;
+  }
+
+  .empty-title {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .empty-sub {
+    margin: 0;
+    color: var(--g-45);
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 760px) {
+    .post-list {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</content>

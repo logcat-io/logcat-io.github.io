@@ -1,0 +1,374 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Giscus from '../components/Giscus.astro';
+import Tag from '../components/Tag.astro';
+import Base from './Base.astro';
+import { formatKstDate } from '../lib/date';
+import { estimateReadingTime } from '../lib/reading-time';
+import { getPublishedPosts, getSignificantTagSet, significantTagsOf } from '../lib/posts';
+import { postHref } from '../lib/slug';
+
+interface Props {
+  post: CollectionEntry<'posts'>;
+  headings?: { depth: number; slug: string; text: string }[];
+}
+
+const { post, headings = [] } = Astro.props;
+const date = formatKstDate(post.data.pubDate);
+const readingTime = estimateReadingTime(post.body);
+const { category } = post.data;
+const toc = headings.filter((h) => h.depth >= 2 && h.depth <= 3);
+// 페이지가 실제 존재하는(count>=MIN) 태그만 노출 — 없는 태그 페이지로 링크가 깨지지 않게.
+const significant = await getSignificantTagSet();
+const visibleTags = significantTagsOf(post, significant);
+
+// SEO/JSON-LD 용 article 메타
+const publishedTime = post.data.pubDate.toISOString();
+const modifiedTime = (post.data.updatedDate ?? post.data.pubDate).toISOString();
+const seoTags = post.data.tags.length ? post.data.tags : visibleTags;
+
+// 이전/다음 글 (발행 목록 최신순 기준)
+const all = await getPublishedPosts();
+const cur = all.findIndex((p) => p.id === post.id);
+const newer = cur > 0 ? all[cur - 1] : null; // 더 최신 = 다음 글
+const older = cur >= 0 && cur < all.length - 1 ? all[cur + 1] : null; // 더 과거 = 이전 글
+
+// 시리즈 = 같은 카테고리의 다른 글
+const seriesPosts = category
+  ? all.filter((p) => p.id !== post.id && p.data.category === category).slice(0, 6)
+  : [];
+---
+
+<Base
+  title={post.data.title}
+  description={post.data.description}
+  canonical={`/posts/${post.data.slug}/`}
+  image={`/og/${post.data.slug}.png`}
+  ogType="article"
+  article={{ publishedTime, modifiedTime, tags: seoTags }}
+>
+  <div class="reading-progress" id="reading-progress"></div>
+  <article data-pagefind-body>
+    <header class="post-head">
+      <p class="page-kicker">
+        POST / {date} · {readingTime} MIN READ{category && <> · {category.toUpperCase()}</>}
+      </p>
+      <h1 data-pagefind-meta="title">{post.data.title}</h1>
+      {
+        visibleTags.length > 0 && (
+          <div class="tags">
+            {visibleTags.map((tag) => (
+              <Tag tag={tag} />
+            ))}
+          </div>
+        )
+      }
+    </header>
+    {
+      toc.length > 0 && (
+        <details class="toc" open data-pagefind-ignore>
+          <summary class="mono">목차 / CONTENTS</summary>
+          <ol>
+            {toc.map((h) => (
+              <li class:list={[`toc-d${h.depth}`]}>
+                <a href={`#${h.slug}`}>{h.text}</a>
+              </li>
+            ))}
+          </ol>
+        </details>
+      )
+    }
+    <div class="prose">
+      <slot />
+    </div>
+    {
+      seriesPosts.length > 0 && (
+        <section class="series" data-pagefind-ignore>
+          <div class="series-head mono">이 시리즈의 다른 글 · {category}</div>
+          <ul>
+            {seriesPosts.map((p) => (
+              <li>
+                <a href={postHref(p.data.slug)}>
+                  <span class="s-date mono">{formatKstDate(p.data.pubDate)}</span>
+                  <span class="s-title">{p.data.title}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+    {
+      (older || newer) && (
+        <nav class="post-nav" aria-label="이전 다음 글" data-pagefind-ignore>
+          {older ? (
+            <a class="pn prev" href={postHref(older.data.slug)}>
+              <span class="pn-lbl mono">← 이전 글</span>
+              <span class="pn-title">{older.data.title}</span>
+            </a>
+          ) : (
+            <span class="pn prev empty">
+              <span class="pn-lbl mono">← 이전 글</span>
+              <span class="pn-title pn-muted">첫 글입니다</span>
+            </span>
+          )}
+          {newer ? (
+            <a class="pn next" href={postHref(newer.data.slug)}>
+              <span class="pn-lbl mono">다음 글 →</span>
+              <span class="pn-title">{newer.data.title}</span>
+            </a>
+          ) : (
+            <span class="pn next empty">
+              <span class="pn-lbl mono">다음 글 →</span>
+              <span class="pn-title pn-muted">최신 글입니다</span>
+            </span>
+          )}
+        </nav>
+      )
+    }
+    <Giscus />
+  </article>
+
+  <script is:inline>
+    document.querySelectorAll('.prose pre').forEach((pre) => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'copy-btn';
+      btn.textContent = 'COPY';
+      btn.addEventListener('click', async () => {
+        const code = pre.querySelector('code');
+        try {
+          await navigator.clipboard.writeText((code || pre).innerText);
+          btn.textContent = 'COPIED';
+        } catch (e) {
+          btn.textContent = 'ERR';
+        }
+        setTimeout(() => (btn.textContent = 'COPY'), 1500);
+      });
+      pre.appendChild(btn);
+    });
+    const rp = document.getElementById('reading-progress');
+    if (rp) {
+      const update = () => {
+        const el = document.documentElement;
+        const max = el.scrollHeight - el.clientHeight;
+        rp.style.width = max > 0 ? (el.scrollTop / max) * 100 + '%' : '0%';
+      };
+      document.addEventListener('scroll', update, { passive: true });
+      window.addEventListener('resize', update);
+      update();
+    }
+  </script>
+</Base>
+
+<style>
+  .post-head {
+    padding: 52px var(--gutter) 36px;
+    border-bottom: 1px solid var(--hair);
+  }
+
+  .post-head > * {
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  h1 {
+    max-width: 720px;
+    margin: 0 auto;
+    font-family: var(--font-body);
+    font-size: clamp(32px, 5vw, 56px);
+    font-weight: 700;
+    line-height: 1.12;
+    letter-spacing: -0.03em;
+  }
+
+  .tags {
+    display: flex;
+    gap: 6px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+
+  .post-nav {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-top: 1px solid var(--hair);
+  }
+
+  .pn {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 28px var(--gutter);
+    text-decoration: none;
+    color: inherit;
+    transition: background 0.12s ease;
+  }
+
+  .pn.prev,
+  .pn.empty {
+    border-right: 1px solid var(--hair);
+  }
+
+  .pn.next {
+    align-items: flex-end;
+    text-align: right;
+  }
+
+  a.pn:hover {
+    background: var(--hover);
+  }
+
+  .pn-muted {
+    color: var(--g-45);
+    font-weight: 400;
+  }
+
+  .pn-lbl {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--g-45);
+  }
+
+  .pn-title {
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.4;
+    letter-spacing: -0.02em;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .reading-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    width: 0;
+    background: var(--ink);
+    z-index: 100;
+  }
+
+  .toc {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 18px var(--gutter);
+    border-bottom: 1px solid var(--hair);
+  }
+
+  .toc summary {
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--g-45);
+  }
+
+  .toc ol {
+    margin: 14px 0 4px;
+    padding: 0;
+    list-style: none;
+  }
+
+  .toc a {
+    display: block;
+    padding: 5px 0;
+    color: var(--g-75);
+    font-size: 14px;
+    line-height: 1.5;
+    text-decoration: none;
+  }
+
+  .toc a:hover {
+    color: var(--ink);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .toc-d3 a {
+    padding-left: 18px;
+    font-size: 13px;
+    color: var(--g-60);
+  }
+
+  .series {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 30px var(--gutter) 40px;
+    border-top: 1px solid var(--hair);
+  }
+
+  .series-head {
+    margin-bottom: 14px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--g-45);
+  }
+
+  .series ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .series a {
+    display: flex;
+    gap: 16px;
+    align-items: baseline;
+    padding: 11px 0;
+    border-bottom: 1px solid var(--hair);
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .series li:last-child a {
+    border-bottom: none;
+  }
+
+  .series a:hover .s-title {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .series .s-date {
+    flex: none;
+    width: 92px;
+    color: var(--g-45);
+    font-size: 11px;
+  }
+
+  .series .s-title {
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+  }
+
+  @media (max-width: 560px) {
+    .post-nav {
+      grid-template-columns: 1fr;
+    }
+    .pn.prev,
+    .pn.empty {
+      border-right: none;
+    }
+    .pn.next {
+      align-items: flex-start;
+      text-align: left;
+      border-top: 1px solid var(--hair);
+    }
+  }
+</style>
+</content>

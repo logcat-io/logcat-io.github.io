@@ -1,0 +1,302 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import PixelSprite from './PixelSprite.astro';
+import { sprites } from '../data/sprites';
+import { formatKstDate } from '../lib/date';
+import { estimateReadingTime } from '../lib/reading-time';
+import { postHref } from '../lib/slug';
+import { getSignificantTagSet, significantTagsOf } from '../lib/posts';
+
+interface Props {
+  post: CollectionEntry<'posts'>;
+  index: number;
+  variant?: 'lead' | 'mini';
+}
+
+const { post, index, variant = 'mini' } = Astro.props;
+const idx = String(index + 1).padStart(3, '0');
+const date = formatKstDate(post.data.pubDate);
+const readingTime = estimateReadingTime(post.body);
+// 페이지가 실제 존재하는(count>=MIN) 태그만 노출 — 깨진 링크/노이즈 방지.
+const significant = await getSignificantTagSet();
+const tags = significantTagsOf(post, significant).slice(0, variant === 'lead' ? 2 : 1);
+---
+
+{
+  variant === 'lead' ? (
+    <a class="post lead" href={postHref(post.data.slug)}>
+      <div class="flabel">
+        <PixelSprite bitmap={sprites.featuredMark} px={4} />
+        <span>FEATURED</span>
+        <span class="idx mono">[ {idx} ]</span>
+      </div>
+      <h3>{post.data.title}</h3>
+      <p class="desc">{post.data.description}</p>
+      <div class="foot">
+        <div class="left">
+          <span class="date">{date}</span>
+          <span class="rt">{readingTime} MIN READ</span>
+          {tags.length > 0 && (
+            <span class="tags">
+              {tags.map((tag) => (
+                <span>#{tag}</span>
+              ))}
+            </span>
+          )}
+        </div>
+        <span class="read">
+          READ <span class="arw">→</span>
+        </span>
+      </div>
+    </a>
+  ) : (
+    <a class="post mini" href={postHref(post.data.slug)}>
+      <div class="row-top">
+        <span class="idx mono">[ {idx} ]</span>
+      </div>
+      <h3>{post.data.title}</h3>
+      <p class="desc">{post.data.description}</p>
+      <div class="meta">
+        <span class="date">{date}</span>
+        <span class="rt">{readingTime} MIN READ</span>
+        {tags.length > 0 && (
+          <span class="tags">
+            {tags.map((tag) => (
+              <span>#{tag}</span>
+            ))}
+          </span>
+        )}
+      </div>
+    </a>
+  )
+}
+
+<style>
+  .post {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: var(--paper);
+    color: inherit;
+    text-decoration: none;
+    transition: background 0.14s ease;
+  }
+
+  /* sliding ink rule on the left (no motion — instant scale on hover) */
+  .post::before {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 3px;
+    background: var(--ink);
+    content: '';
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 0.18s ease;
+  }
+
+  .post:hover {
+    background: var(--hover);
+  }
+
+  .post:hover::before {
+    transform: scaleY(1);
+  }
+
+  /* --- FEATURED lead --- */
+  .post.lead {
+    padding: 36px 38px 32px;
+  }
+
+  .flabel {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    margin-bottom: 28px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+
+  .flabel .idx {
+    margin-left: auto;
+    color: var(--g-45);
+    font-weight: 400;
+  }
+
+  .post.lead h3 {
+    margin: 0 0 18px;
+    font-family: var(--font-body);
+    font-size: clamp(23px, 2.6vw, 29px);
+    font-weight: 700;
+    line-height: 1.3;
+    letter-spacing: -0.03em;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .post.lead .desc {
+    max-width: 64ch;
+    margin: 0;
+    color: var(--g-75);
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.75;
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .post.lead .foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid var(--hair);
+    flex-wrap: wrap;
+  }
+
+  .post.lead .foot .left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: var(--g-45);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .post.lead .foot .rt {
+    color: var(--ink);
+    font-weight: 700;
+  }
+
+  .read {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .read .arw {
+    display: inline-block;
+    opacity: 0;
+    transform: translateX(-4px);
+    transition: transform 0.18s ease, opacity 0.18s ease;
+  }
+
+  .post:hover .read .arw {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* --- compact stack cells --- */
+  .post.mini {
+    padding: 26px 28px 24px;
+    min-height: 220px;
+  }
+
+  .row-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+  }
+
+  .post.mini .idx {
+    color: var(--g-45);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 1px;
+  }
+
+  .post.mini h3 {
+    margin: 0 0 10px;
+    font-family: var(--font-body);
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.4;
+    letter-spacing: -0.02em;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .post.mini .desc {
+    flex: 1;
+    margin: 0;
+    color: var(--g-60);
+    font-family: var(--font-body);
+    font-size: 13px;
+    line-height: 1.65;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 18px;
+    padding-top: 14px;
+    border-top: 1px solid var(--hair);
+    color: var(--g-45);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .meta .rt {
+    color: var(--ink);
+    font-weight: 700;
+  }
+
+  /* tag chips (lead + mini share) */
+  .tags {
+    display: flex;
+    gap: 6px;
+  }
+
+  .tags span {
+    padding: 2px 6px;
+    border: 1px solid var(--hair);
+    color: var(--ink);
+    letter-spacing: 0.5px;
+  }
+
+  @media (max-width: 760px) {
+    .post.lead h3 {
+      max-width: none;
+    }
+  }
+
+  @media (max-width: 440px) {
+    .post.lead .foot .tags {
+      display: none;
+    }
+  }
+</style>
+</content>
+</invoke>

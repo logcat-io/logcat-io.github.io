@@ -1,0 +1,160 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getPublishedPosts, getSignificantTagSet, significantTagsOf } from '../../lib/posts';
+import { formatKstDate } from '../../lib/date';
+
+const posts = await getPublishedPosts();
+const count = String(posts.length).padStart(3, '0');
+const significant = await getSignificantTagSet();
+
+// 연도별 그룹 (최신순)
+const byYear = new Map<number, typeof posts>();
+for (const p of posts) {
+  const y = new Date(p.data.pubDate).getFullYear();
+  if (!byYear.has(y)) byYear.set(y, []);
+  byYear.get(y)!.push(p);
+}
+const years = [...byYear.keys()].sort((a, b) => b - a);
+---
+
+<Base title="Posts" description="LogCat 의 모든 공개된 글 아카이브.">
+  <section class="archive-head">
+    <p class="page-kicker">INDEX / ARCHIVE</p>
+    <h1 class="archive-title">POSTS</h1>
+    <p class="archive-sub mono">{count} ENTRIES · 전체 글 · 최신순</p>
+  </section>
+
+  {
+    years.map((year) => (
+      <section class="year">
+        <div class="year-bar">
+          <span class="year-num">{year}</span>
+          <span class="year-count mono">{String(byYear.get(year)!.length).padStart(2, '0')} POSTS</span>
+        </div>
+        <ul class="rows">
+          {byYear.get(year)!.map((p) => (
+            <li>
+              <a href={`/posts/${p.data.slug}/`}>
+                <span class="d mono">{formatKstDate(p.data.pubDate)}</span>
+                <span class="t">{p.data.title}</span>
+                {significantTagsOf(p, significant).length > 0 && (
+                  <span class="tg mono">{significantTagsOf(p, significant).slice(0, 3).map((t) => `#${t}`).join(' ')}</span>
+                )}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))
+  }
+</Base>
+
+<style>
+  .archive-head {
+    padding: 56px var(--gutter) 40px;
+    border-bottom: 1px solid var(--hair);
+  }
+
+  .archive-title {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: clamp(40px, 8vw, 72px);
+    font-weight: 700;
+    line-height: 0.92;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+  }
+
+  .archive-sub {
+    margin: 16px 0 0;
+    color: var(--g-60);
+    font-size: 12px;
+    letter-spacing: 1px;
+  }
+
+  .year-bar {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding: 16px var(--gutter);
+    background: var(--ink);
+    color: var(--paper);
+    position: sticky;
+    top: 51px;
+    z-index: 10;
+  }
+
+  .year-num {
+    font-family: var(--font-mono);
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 2px;
+  }
+
+  .year-count {
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--g-45);
+  }
+
+  .rows {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .rows a {
+    display: grid;
+    grid-template-columns: 110px 1fr auto;
+    gap: 20px;
+    align-items: baseline;
+    padding: 14px var(--gutter);
+    border-bottom: 1px solid var(--hair);
+    text-decoration: none;
+    transition: background 0.1s ease;
+  }
+
+  .rows a:hover {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .rows .d {
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    color: var(--g-45);
+  }
+
+  .rows a:hover .d,
+  .rows a:hover .tg {
+    color: var(--g-30);
+  }
+
+  .rows .t {
+    font-family: var(--font-body);
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+  }
+
+  .rows .tg {
+    font-size: 10.5px;
+    letter-spacing: 0.5px;
+    color: var(--g-45);
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  @media (max-width: 680px) {
+    .rows a {
+      grid-template-columns: 1fr;
+      gap: 6px;
+      padding: 16px var(--gutter);
+    }
+
+    .rows .tg {
+      text-align: left;
+    }
+  }
+</style>

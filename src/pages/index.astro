@@ -1,0 +1,422 @@
+---
+import PixelSprite from '../components/PixelSprite.astro';
+import PostCard from '../components/PostCard.astro';
+import Base from '../layouts/Base.astro';
+import { sprites } from '../data/sprites';
+import { getAllTags, getPublishedPosts } from '../lib/posts';
+
+const posts = await getPublishedPosts();
+const [featured, ...rest] = posts;
+const stack = rest.slice(0, 3);
+const tags = await getAllTags();
+const topics = tags.slice(0, 7).map(({ tag }) => tag.toUpperCase());
+
+const count = String(posts.length).padStart(3, '0');
+const buildDate = new Intl.DateTimeFormat('en-CA', {
+  timeZone: 'Asia/Seoul',
+  year: 'numeric',
+  month: '2-digit',
+  day: '2-digit',
+})
+  .format(new Date())
+  .replace(/-/g, '.');
+---
+
+<Base
+  title="LogCat"
+  description="소심한 엔지니어의 개발기록 — 백엔드부터 사이드 프로젝트, 바이브코딩까지 개발하며 한 줄씩 남기는 로그."
+  isHome
+>
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="hud mono">
+      <span>LOC <b>SEOUL, KR</b></span>
+      <span>STACK <b>KOTLIN · JAVA · GOLANG</b></span>
+      <span>UPDATED <b>{buildDate}</b></span>
+      <span>STATUS <b>ONLINE</b></span>
+    </div>
+
+    <div class="heroflex">
+      <div class="heroleft">
+        <h1>LOG<br /><span class="dim">/</span> CAT</h1>
+        <p class="tagline">
+          Engineering, one block at a time.
+          <span class="ko-sub"
+            >소심한 엔지니어의 개발기록 — 의심하고, 확인하고, 한 줄씩 남긴다.</span
+          >
+        </p>
+        <div class="herobadges mono">
+          <span>#Java</span>
+          <span>#Golang</span>
+          <span>#Kotlin</span>
+          <span>#Typescript</span>
+          <span>#Python</span>
+        </div>
+      </div>
+      <div class="herowrap">
+        <div class="herocard">
+          <img class="herocat" src="/logcat-cat.png" alt="LogCat — 턱시도 고양이 마스코트" width="240" height="240" />
+        </div>
+        <div class="figcap">FIG.01 — LOGCAT</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 01 / LATEST ============ -->
+  <div class="secbar">
+    <div class="label">
+      <PixelSprite bitmap={sprites.marker} px={3} />
+      <span class="ix">01 /</span> LATEST · 최신 글
+    </div>
+    <div class="count mono">
+      FEATURED + 최신 {stack.length} · 전체 {count}편
+    </div>
+  </div>
+
+  {
+    posts.length === 0 ? (
+      <section class="empty-shell">
+        <PixelSprite bitmap={sprites.terminalPrompt} px={5} />
+        <p class="empty-title">아직 공개된 글이 없습니다</p>
+        <p class="empty-sub mono">NO PUBLISHED ENTRIES — DRAFTS IN PROGRESS</p>
+      </section>
+    ) : (
+      <section class="feedgrid">
+        <PostCard post={featured} index={0} variant="lead" />
+        <div class="minirow">
+          {stack.map((post, i) => (
+            <PostCard post={post} index={i + 1} variant="mini" />
+          ))}
+        </div>
+      </section>
+    )
+  }
+
+  <!-- ============ 02 / NOW — full-width INK band ============ -->
+  {
+    topics.length > 0 && (
+      <section class="band">
+        <div class="bandsprite">
+          <PixelSprite bitmap={sprites.terminalPrompt} px={7} inverted />
+        </div>
+        <div class="bandbody">
+          <div class="blabel">02 / TOPICS — 많이 다룬 주제 · 빈도순 · 클릭하면 모아보기</div>
+          <h2 class="btitle">POPULAR TAGS</h2>
+          <div class="topics">
+            {topics.map((topic, i) => (
+              <a href={`/tags/${encodeURIComponent(topic.toLowerCase())}/`} class:list={[i >= 5 && 'mut']}>
+                {topic}
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+</Base>
+
+<style>
+  /* ============ HERO ============ */
+  .hero {
+    position: relative;
+    padding: 54px var(--gutter) 48px;
+    border-bottom: 1px solid var(--hair);
+  }
+
+  .hud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 22px;
+    margin-bottom: 34px;
+    color: var(--g-45);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .hud span {
+    white-space: nowrap;
+  }
+
+  .hud b {
+    color: var(--ink);
+    font-weight: 700;
+  }
+
+  .hero h1 {
+    margin: 0 0 26px;
+    font-family: var(--font-mono);
+    font-size: clamp(38px, 7vw, 76px);
+    font-weight: 700;
+    line-height: 0.92;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+
+  .hero h1 .dim {
+    color: var(--g-45);
+  }
+
+  .heroflex {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    margin-top: 24px;
+  }
+
+  .heroleft {
+    max-width: 520px;
+  }
+
+  .herobadges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 22px;
+  }
+
+  .herobadges span {
+    padding: 5px 10px;
+    border: 1px solid var(--hair);
+    font-size: 11px;
+    letter-spacing: 1px;
+  }
+
+  .tagline {
+    max-width: 380px;
+    font-family: var(--font-body);
+    font-size: 19px;
+    font-weight: 500;
+    line-height: 1.5;
+    letter-spacing: -0.01em;
+  }
+
+  .tagline .ko-sub {
+    display: block;
+    margin-top: 12px;
+    color: var(--g-60);
+    font-size: 13.5px;
+    font-weight: 400;
+    line-height: 1.7;
+  }
+
+  .herowrap {
+    display: flex;
+    flex: none;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+  }
+
+  .herocard {
+    padding: 14px;
+    border: 1px solid var(--hair);
+    background: var(--paper);
+    line-height: 0;
+  }
+
+  .herocat {
+    display: block;
+    width: 240px;
+    max-width: 100%;
+    height: auto;
+  }
+
+  .figcap {
+    color: var(--g-45);
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  /* ============ SECTION BAR ============ */
+  .secbar {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding: 20px var(--gutter);
+    border-bottom: 1px solid var(--hair);
+  }
+
+  .secbar .label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+
+  .secbar .label .ix {
+    color: var(--g-45);
+    font-weight: 400;
+  }
+
+  .secbar .count {
+    color: var(--g-45);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 1px;
+  }
+
+  /* ============ LATEST GRID ============ */
+  /* featured full-width, then a row of minis — 콘텐츠 기준 자연 높이 */
+  .feedgrid :global(.post.lead) {
+    border-bottom: 1px solid var(--hair);
+  }
+
+  .minirow {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .minirow :global(.post.mini) {
+    border-right: 1px solid var(--hair);
+    border-bottom: 1px solid var(--hair);
+  }
+
+  .minirow :global(.post.mini:last-child) {
+    border-right: none;
+  }
+
+  /* empty state */
+  .empty-shell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    padding: 90px var(--gutter);
+    border-bottom: 1px solid var(--hair);
+    text-align: center;
+  }
+
+  .empty-title {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .empty-sub {
+    margin: 0;
+    color: var(--g-45);
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  /* ============ NOW BAND ============ */
+  .band {
+    display: flex;
+    align-items: center;
+    gap: 46px;
+    padding: 52px var(--gutter);
+    border-bottom: 1px solid var(--hair);
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .bandsprite {
+    flex: none;
+  }
+
+  .bandbody {
+    flex: 1;
+  }
+
+  .blabel {
+    margin-bottom: 16px;
+    color: var(--g-45);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+  }
+
+  .btitle {
+    margin: 0 0 22px;
+    font-family: var(--font-mono);
+    font-size: clamp(22px, 3vw, 32px);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+  }
+
+  .topics {
+    display: flex;
+    flex-wrap: wrap;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .topics a {
+    margin-right: 16px;
+    padding: 6px 16px 6px 0;
+    border-right: 1px solid var(--hair-inv);
+    color: var(--paper);
+    text-decoration: none;
+  }
+
+  .topics a:last-child {
+    margin-right: 0;
+    border-right: none;
+  }
+
+  .topics a.mut {
+    color: var(--g-45);
+  }
+
+  .topics a:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 760px) {
+    .hero {
+      padding: 52px var(--gutter) 44px;
+    }
+
+    .hero h1 {
+      letter-spacing: -0.04em;
+    }
+
+    .heroflex {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 30px;
+    }
+
+    .herowrap {
+      align-self: center;
+      align-items: center;
+    }
+
+    .herocat {
+      width: 200px;
+    }
+
+    .minirow {
+      grid-template-columns: 1fr;
+    }
+
+    .band {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 28px;
+      padding: 40px var(--gutter);
+    }
+  }
+</style>
+</content>

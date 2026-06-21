@@ -1,0 +1,60 @@
+---
+interface Props {
+  bitmap: string;
+  px?: number;
+  inverted?: boolean;
+}
+
+const { bitmap, px = 7, inverted = false } = Astro.props;
+const rows = bitmap.split('/');
+const cols = rows[0]?.length ?? 0;
+
+if (rows.length === 0 || cols === 0) {
+  throw new Error('PixelSprite bitmap must contain at least one non-empty row');
+}
+
+for (const row of rows) {
+  if (row.length !== cols) {
+    throw new Error(`PixelSprite row length mismatch: expected ${cols}, received ${row.length}`);
+  }
+
+  if (!/^[01]+$/.test(row)) {
+    throw new Error('PixelSprite bitmap accepts only 0/1 cells');
+  }
+}
+
+const cells = rows.flatMap((row) => [...row]);
+const style = `--cols:${cols};--rows:${rows.length};--px:${px}px;`;
+---
+
+<span class:list={['sprite', inverted && 'inv']} style={style} aria-hidden="true">
+  {cells.map((cell) => <i class={cell === '1' ? 'on' : 'off'} />)}
+</span>
+
+<style>
+  .sprite {
+    display: grid;
+    grid-template-columns: repeat(var(--cols), var(--px));
+    grid-template-rows: repeat(var(--rows), var(--px));
+    width: max-content;
+    line-height: 0;
+  }
+
+  .sprite > i {
+    display: block;
+    width: var(--px);
+    height: var(--px);
+  }
+
+  .sprite > i.on {
+    background: var(--ink);
+  }
+
+  .sprite > i.off {
+    background: transparent;
+  }
+
+  .sprite.inv > i.on {
+    background: var(--paper);
+  }
+</style>

@@ -1,0 +1,36 @@
+:root {
+  --paper: #ffffff;
+  --ink: #0a0a0a;
+  --g-12: #e6e6e6;
+  --g-30: #b3b3b3;
+  --g-45: #8c8c8c;
+  --g-60: #6b6b6b;
+  --g-75: #404040;
+  --g-85: #262626;
+  --hair: #0a0a0a;
+  --hover: #f5f5f5;
+  --grid: rgba(10, 10, 10, 0.045);
+  --hair-inv: rgba(255, 255, 255, 0.22);
+  --cell: 7px;
+  --gutter: 30px;
+
+  --font-body: 'Pretendard', 'Space Mono', system-ui, -apple-system, sans-serif;
+  --font-mono: 'Space Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  --type-display: clamp(58px, 13vw, 124px);
+  --type-heading: clamp(28px, 3.4vw, 34px);
+  --type-subheading: 24px;
+  --type-body: 17px;
+  --type-body-sm: 15px;
+  --type-label: 11px;
+  --leading-body: 1.8;
+  --leading-code: 1.65;
+  --tracking-label: 3px;
+}
+
+@media (max-width: 760px) {
+  :root {
+    --gutter: 20px;
+    --type-body: 16px;
+  }
+}

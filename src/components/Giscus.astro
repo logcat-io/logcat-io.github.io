@@ -1,0 +1,37 @@
+---
+const repo = import.meta.env.PUBLIC_GISCUS_REPO;
+const repoId = import.meta.env.PUBLIC_GISCUS_REPO_ID ?? '';
+const category = import.meta.env.PUBLIC_GISCUS_CATEGORY ?? 'General';
+const categoryId = import.meta.env.PUBLIC_GISCUS_CATEGORY_ID ?? '';
+---
+
+{
+  repo && (
+    <section class="giscus-shell" aria-label="Comments">
+      <script
+        src="https://giscus.app/client.js"
+        data-repo={repo}
+        data-repo-id={repoId}
+        data-category={category}
+        data-category-id={categoryId}
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="light"
+        data-lang="ko"
+        crossorigin="anonymous"
+        async
+      />
+    </section>
+  )
+}
+
+<style>
+  .giscus-shell {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 var(--gutter) 64px;
+  }
+</style>

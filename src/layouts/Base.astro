@@ -1,0 +1,97 @@
+---
+import PixelSprite from '../components/PixelSprite.astro';
+import SEO from '../components/SEO.astro';
+import type { ArticleMeta } from '../components/SEO.astro';
+import { sprites } from '../data/sprites';
+import { getPublishedPosts } from '../lib/posts';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  canonical?: string;
+  image?: string;
+  ogType?: 'website' | 'article';
+  article?: ArticleMeta;
+  isHome?: boolean;
+}
+
+const {
+  title = 'LogCat',
+  description = '소심한 엔지니어의 개발기록 — 백엔드부터 사이드 프로젝트, 바이브코딩까지 개발하며 남기는 LogCat 의 로그.',
+  canonical,
+  image,
+  ogType = 'website',
+  article,
+  isHome = false,
+} = Astro.props;
+
+const navPath = Astro.url.pathname;
+const navActive = (prefix: string) => navPath === prefix || navPath.startsWith(prefix);
+
+const postCount = String((await getPublishedPosts()).length).padStart(3, '0');
+const deployDate = new Intl.DateTimeFormat('en-CA', {
+  timeZone: 'Asia/Seoul',
+  year: 'numeric',
+  month: '2-digit',
+  day: '2-digit',
+})
+  .format(new Date())
+  .replace(/-/g, '.');
+---
+
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    <SEO
+      title={title}
+      description={description}
+      canonical={canonical}
+      image={image}
+      ogType={ogType}
+      article={article}
+      isHome={isHome}
+    />
+  </head>
+  <body>
+    <div class="site-wrap">
+      <header class="idbar">
+        <a class="idbar-logo" href="/" aria-label="LogCat home">
+          <PixelSprite bitmap={sprites.catMini} px={4} />
+        </a>
+        <a class="idbar-brand" href="/">LogCat</a>
+        <div class="idbar-label">DEV LOG</div>
+        <nav aria-label="Primary navigation">
+          <a href="/posts/" aria-current={navActive('/posts/') ? 'page' : undefined}>POSTS</a>
+          <a href="/tags/" aria-current={navActive('/tags/') ? 'page' : undefined}>TAGS</a>
+          <a href="/search/" aria-current={navActive('/search/') ? 'page' : undefined}>SEARCH</a>
+          <a href="/about/" aria-current={navActive('/about/') ? 'page' : undefined}>ABOUT</a>
+          <a href="/rss.xml">RSS</a>
+        </nav>
+      </header>
+      <main class="page-main">
+        <slot />
+      </main>
+      <footer class="site-footer">
+        <div class="left">
+          <PixelSprite bitmap={sprites.catMini} px={3} />
+          <span>LogCat - github.com/logcat-io</span>
+        </div>
+        <div class="status">
+          <span class="dot"></span>
+          <span>BUILD OK · {postCount} POSTS · LAST DEPLOY {deployDate} · NO TRACKERS</span>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>
+
+<style>
+  .idbar-brand {
+    color: var(--ink);
+    text-decoration: none;
+  }
+</style>

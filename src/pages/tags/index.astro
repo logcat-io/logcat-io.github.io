@@ -1,0 +1,179 @@
+---
+import PixelSprite from '../../components/PixelSprite.astro';
+import Base from '../../layouts/Base.astro';
+import { sprites } from '../../data/sprites';
+import { getAllTags } from '../../lib/posts';
+import { tagHref } from '../../lib/slug';
+
+const tags = await getAllTags();
+const count = String(tags.length).padStart(3, '0');
+---
+
+<Base title="Tags" description="LogCat 글에 사용된 태그 목록.">
+  <section class="archive-head">
+    <p class="page-kicker">INDEX / TAXONOMY</p>
+    <h1 class="archive-title">TAGS</h1>
+    <p class="archive-sub mono">주제별 색인 — {count} TERMS</p>
+  </section>
+
+  <div class="secbar">
+    <div class="label">
+      <PixelSprite bitmap={sprites.markerCross} px={3} />
+      <span class="ix">ALL /</span> TERMS · 전체 태그
+    </div>
+    <div class="count mono">{count} TERMS</div>
+  </div>
+
+  {
+    tags.length === 0 ? (
+      <section class="empty-shell">
+        <PixelSprite bitmap={sprites.terminalPrompt} px={5} />
+        <p class="empty-title">아직 공개된 태그가 없습니다</p>
+        <p class="empty-sub mono">NO PUBLISHED TAGS — DRAFTS IN PROGRESS</p>
+      </section>
+    ) : (
+      <div class="tag-grid">
+        {tags.map(({ tag, count: n }) => (
+          <a class="tag-row" href={tagHref(tag)}>
+            <span class="tag-name">#{tag}</span>
+            <span class="tag-count">{String(n).padStart(2, '0')}</span>
+          </a>
+        ))}
+      </div>
+    )
+  }
+</Base>
+
+<style>
+  .archive-head {
+    padding: 64px var(--gutter) 44px;
+    border-bottom: 1px solid var(--hair);
+  }
+
+  .archive-title {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: clamp(48px, 9vw, 88px);
+    font-weight: 700;
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+  }
+
+  .archive-sub {
+    margin: 18px 0 0;
+    color: var(--g-60);
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .secbar {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding: 20px var(--gutter);
+    border-bottom: 1px solid var(--hair);
+  }
+
+  .secbar .label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+
+  .secbar .label .ix {
+    color: var(--g-45);
+    font-weight: 400;
+  }
+
+  .secbar .count {
+    color: var(--g-45);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 1px;
+  }
+
+  .tag-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border-top: 1px solid var(--hair);
+    border-left: 1px solid var(--hair);
+  }
+
+  .tag-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 16px 18px;
+    border-right: 1px solid var(--hair);
+    border-bottom: 1px solid var(--hair);
+    color: var(--ink);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    text-decoration: none;
+    transition: background 0.14s ease;
+  }
+
+  .tag-row:hover {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .tag-name {
+    text-transform: uppercase;
+  }
+
+  .tag-count {
+    color: var(--g-45);
+  }
+
+  .tag-row:hover .tag-count {
+    color: var(--paper);
+  }
+
+  .empty-shell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    padding: 80px var(--gutter);
+    text-align: center;
+  }
+
+  .empty-title {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .empty-sub {
+    margin: 0;
+    color: var(--g-45);
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 760px) {
+    .tag-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 440px) {
+    .tag-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</content>

@@ -1,0 +1,33 @@
+---
+import { tagHref } from '../lib/slug';
+
+interface Props {
+  tag: string;
+}
+
+const { tag } = Astro.props;
+---
+
+<a class="tag" href={tagHref(tag)}>#{tag}</a>
+
+<style>
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    min-height: 24px;
+    padding: 2px 7px;
+    border: 1px solid var(--hair);
+    color: var(--ink);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.5px;
+    line-height: 1.2;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  .tag:hover {
+    background: var(--ink);
+    color: var(--paper);
+  }
+</style>

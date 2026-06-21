@@ -1,0 +1,51 @@
+# LogCat — AI 검색/크롤러 노출을 명시적으로 허용한다.
+
+# --- AI / LLM 크롤러 (OpenAI) ---
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+# --- AI / LLM 크롤러 (Anthropic) ---
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+# --- AI 검색 (Perplexity) ---
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+# --- 검색엔진 AI 학습/요약 옵트인 ---
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+# --- 일반 검색엔진 크롤러 ---
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# --- 그 외 모두 허용 ---
+User-agent: *
+Allow: /
+
+Sitemap: https://logcat-io.github.io/sitemap-index.xml

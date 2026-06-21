@@ -1,0 +1,97 @@
+---
+import PixelSprite from '../../components/PixelSprite.astro';
+import PostList from '../../components/PostList.astro';
+import Base from '../../layouts/Base.astro';
+import { sprites } from '../../data/sprites';
+import { getAllTags, getPostsByTag } from '../../lib/posts';
+
+export async function getStaticPaths() {
+  const tags = await getAllTags();
+
+  // Astro encodes URL segments itself — pass the raw (normalized) tag as the
+  // param, otherwise non-ASCII tags (e.g. 백준) get double-encoded and the
+  // generated route never matches its own static path.
+  return tags.map(({ tag }) => ({
+    params: { tag },
+    props: { tag },
+  }));
+}
+
+const { tag } = Astro.props;
+const posts = await getPostsByTag(tag);
+const count = String(posts.length).padStart(3, '0');
+---
+
+<Base title={`Tag: ${tag}`} description={`#${tag} 태그가 달린 글 모음.`}>
+  <section class="archive-head">
+    <p class="page-kicker">TAG / FILTERED VIEW</p>
+    <h1 class="archive-title">#{tag}</h1>
+    <p class="archive-sub mono">{count} ENTRIES TAGGED — SORTED BY DATE DESC</p>
+  </section>
+
+  <div class="secbar">
+    <div class="label">
+      <PixelSprite bitmap={sprites.markerCross} px={3} />
+      <span class="ix">TAG /</span> {tag.toUpperCase()}
+    </div>
+    <div class="count mono">{count} ENTRIES</div>
+  </div>
+
+  <PostList posts={posts} />
+</Base>
+
+<style>
+  .archive-head {
+    padding: 64px var(--gutter) 44px;
+    border-bottom: 1px solid var(--hair);
+  }
+
+  .archive-title {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: clamp(40px, 8vw, 76px);
+    font-weight: 700;
+    line-height: 0.92;
+    letter-spacing: -0.04em;
+  }
+
+  .archive-sub {
+    margin: 18px 0 0;
+    color: var(--g-60);
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .secbar {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding: 20px var(--gutter);
+    border-bottom: 1px solid var(--hair);
+  }
+
+  .secbar .label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+
+  .secbar .label .ix {
+    color: var(--g-45);
+    font-weight: 400;
+  }
+
+  .secbar .count {
+    color: var(--g-45);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 1px;
+  }
+</style>
+</content>

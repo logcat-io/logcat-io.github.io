@@ -1,0 +1,430 @@
+---
+import PixelSprite from '../components/PixelSprite.astro';
+import Base from '../layouts/Base.astro';
+import { sprites } from '../data/sprites';
+---
+
+<Base
+  title="About"
+  description="소심한 엔지니어의 개발기록 — 백엔드부터 사이드 프로젝트·바이브코딩까지, 개발자 LogCat 소개."
+>
+  <section class="about-head">
+    <p class="page-kicker">ABOUT / PROFILE</p>
+    <h1 class="about-title">LogCat</h1>
+    <p class="about-lede">소심한 엔지니어의 개발기록.</p>
+    <div class="about-grid">
+      <div class="about-body">
+      <p>
+        과감하게 지르기보다 한 번 더 의심하는 쪽입니다. 배포 버튼을 누르기 전에 롤백 경로부터 확인하고,
+        “이게 정말 맞나” 를 끝까지 곱씹는 — 그런 소심함이 개발에선 꽤 쓸모 있다고 믿습니다.
+      </p>
+      <p>
+        그래서 화려한 결론보다 과정을 남깁니다. 새벽 3시의 디버깅, 도입 전에 던졌어야 할 질문들,
+        운영하다 데인 자리에 붙인 체크리스트 — 다음의 내가 같은 곳에서 또 넘어지지 않도록 꼼꼼히
+        적어 둡니다.
+      </p>
+      <p>
+        틀린 기록도 그대로 둡니다. 그때의 내가 무엇을 몰랐는지가 가장 정직한 로그라서요.
+      </p>
+      <p>
+        요즘은 백엔드 너머로 넓혀 갑니다 — 사이드 프로젝트, 바이브코딩(vibe coding, AI와 대화하듯
+        빠르게 만들어 보는 방식)으로 만든 것들까지. 직군을 좁히기보다, 그냥 한 명의 개발자로서
+        만들고 부딪힌 걸 남깁니다.
+      </p>
+      <p class="about-close">그렇게 한 줄씩 쌓인 로그가, 이 블로그입니다.</p>
+      <p class="contact mono">CONTACT — github.com/logcat-io</p>
+      </div>
+      <aside class="about-stack">
+        <div class="stack-label mono">STACK / 기술</div>
+        <ul>
+          <li>Kotlin · Java</li>
+          <li>Spring · Boot · Batch</li>
+          <li>Kafka · Event Streaming</li>
+          <li>PostgreSQL · MySQL</li>
+          <li>Redis</li>
+          <li>Go · TypeScript</li>
+        </ul>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ============ SYSTEM · 스프라이트 showcase ============ -->
+  <div class="secbar">
+    <div class="label">
+      <PixelSprite bitmap={sprites.markerCross} px={3} />
+      <span class="ix">01 /</span> SYSTEM · 스프라이트
+    </div>
+    <div class="count mono">HAND-CODED · STRING BITMAP</div>
+  </div>
+
+  <section class="showcase">
+    <div class="panel">
+      <PixelSprite bitmap={sprites.blockStack} px={11} inverted />
+    </div>
+    <div class="scmeta">
+      <div class="big">ISOMETRIC<br />BLOCK STACK</div>
+      <div class="desc mono">
+        NO IMAGE — NO SVG — NO EMOJI<br />
+        RENDERED FROM <b>STRING BITMAP</b> ROWS<br />
+        VIA CSS GRID CELLS — <b>1 = ON</b>, <b>0 = OFF</b><br />
+        EACH CELL IS ONE <b>11PX</b> BLOCK
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PALETTE · 타입 strip ============ -->
+  <div class="secbar">
+    <div class="label">
+      <PixelSprite bitmap={sprites.marker} px={3} />
+      <span class="ix">02 /</span> PALETTE · 타입
+    </div>
+    <div class="count mono">MONOCHROME — NO ACCENT</div>
+  </div>
+
+  <section class="strip">
+    <div class="swatches">
+      <div class="swatch sw-paper"><span class="tag">PAPER · #FFFFFF</span></div>
+      <div class="swatch sw-g12"><span class="tag">G-12 · #E6E6E6</span></div>
+      <div class="swatch sw-g30"><span class="tag">G-30 · #B3B3B3</span></div>
+      <div class="swatch sw-g45"><span class="tag inv">G-45 · #8C8C8C</span></div>
+      <div class="swatch sw-g75"><span class="tag inv">G-75 · #404040</span></div>
+      <div class="swatch sw-ink"><span class="tag inv">INK · #0A0A0A</span></div>
+    </div>
+
+    <div class="typescale">
+      <div class="ts-row">
+        <span class="tslabel-inline">DISPLAY / 96</span>
+        <span class="ts-display">SWISS PIXEL</span>
+      </div>
+      <div class="ts-row">
+        <span class="tslabel-inline">HEADING / 24</span>
+        <span class="ts-heading">타입 위계는 그리드가 결정한다</span>
+      </div>
+      <div class="ts-row">
+        <span class="tslabel-inline">MONO LABEL</span>
+        <span class="ts-monolabel">SPACE MONO — UPPERCASE — 3PX TRACKING</span>
+      </div>
+      <div class="ts-row">
+        <span class="tslabel-inline">BODY / KO</span>
+        <span class="ts-body"
+          >Pretendard 본문 한 줄 — 모노크롬 위에서 한글이 또렷하게 읽히도록 충분한 여백과 라인 높이를
+          유지한다.</span
+        >
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .about-head {
+    padding: 64px var(--gutter) 56px;
+    border-bottom: 1px solid var(--hair);
+  }
+
+  .about-title {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: clamp(48px, 9vw, 92px);
+    font-weight: 700;
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+  }
+
+  .about-lede {
+    margin: 18px 0 30px;
+    font-family: var(--font-body);
+    font-size: 19px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 48px;
+    align-items: start;
+  }
+
+  .about-body {
+    max-width: none;
+  }
+
+  .about-stack {
+    padding-left: 28px;
+    border-left: 1px solid var(--hair);
+  }
+
+  .stack-label {
+    margin: 0 0 14px;
+    color: var(--g-45);
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+
+  .about-stack ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .about-stack li {
+    padding: 9px 0;
+    border-bottom: 1px solid var(--hair);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.5px;
+  }
+
+  .about-stack li:last-child {
+    border-bottom: none;
+  }
+
+  .about-body p {
+    margin: 0 0 18px;
+    color: var(--g-75);
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.8;
+  }
+
+  .about-close {
+    margin: 22px 0 0;
+    font-family: var(--font-body);
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.6;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+
+  .about-body .contact {
+    margin-top: 26px;
+    color: var(--g-45);
+    font-size: 12px;
+    letter-spacing: 1px;
+  }
+
+  /* ============ SECTION BAR ============ */
+  .secbar {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding: 20px var(--gutter);
+    border-bottom: 1px solid var(--hair);
+  }
+
+  .secbar .label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+
+  .secbar .label .ix {
+    color: var(--g-45);
+    font-weight: 400;
+  }
+
+  .secbar .count {
+    color: var(--g-45);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 1px;
+  }
+
+  /* ============ SHOWCASE ============ */
+  .showcase {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    padding: 62px var(--gutter);
+    border-bottom: 1px solid var(--hair);
+    background:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px), var(--paper);
+    background-size: var(--cell) var(--cell);
+  }
+
+  .panel {
+    flex: none;
+    padding: 26px;
+    background: var(--ink);
+  }
+
+  .scmeta .big {
+    margin-bottom: 16px;
+    font-family: var(--font-mono);
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+  }
+
+  .scmeta .desc {
+    color: var(--g-45);
+    font-size: 11px;
+    line-height: 1.95;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .scmeta .desc b {
+    color: var(--ink);
+    font-weight: 700;
+  }
+
+  /* ============ STRIP ============ */
+  .strip {
+    border-bottom: 1px solid var(--hair);
+  }
+
+  .swatches {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    border-bottom: 1px solid var(--hair);
+  }
+
+  .swatch {
+    display: flex;
+    align-items: flex-end;
+    height: 112px;
+    padding: 10px;
+    border-right: 1px solid var(--hair);
+  }
+
+  .swatch:last-child {
+    border-right: none;
+  }
+
+  .swatch .tag {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .swatch .tag.inv {
+    color: var(--paper);
+  }
+
+  .sw-paper {
+    background: var(--paper);
+  }
+  .sw-g12 {
+    background: var(--g-12);
+  }
+  .sw-g30 {
+    background: var(--g-30);
+  }
+  .sw-g45 {
+    background: var(--g-45);
+  }
+  .sw-g75 {
+    background: var(--g-75);
+  }
+  .sw-ink {
+    background: var(--ink);
+  }
+
+  .ts-row {
+    display: flex;
+    align-items: baseline;
+    gap: 18px;
+    padding: 16px 26px;
+    border-bottom: 1px solid var(--hair);
+  }
+
+  .ts-row:last-child {
+    border-bottom: none;
+  }
+
+  .tslabel-inline {
+    flex: none;
+    width: 130px;
+    color: var(--g-45);
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .ts-display {
+    font-family: var(--font-mono);
+    font-size: 40px;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+  }
+
+  .ts-heading {
+    font-family: var(--font-body);
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+  }
+
+  .ts-monolabel {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+
+  .ts-body {
+    color: var(--g-75);
+    font-family: var(--font-body);
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 760px) {
+    .about-grid {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+
+    .about-stack {
+      padding-left: 0;
+      padding-top: 22px;
+      border-left: none;
+      border-top: 1px solid var(--hair);
+    }
+
+    .showcase {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 34px;
+    }
+
+    .swatches {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .swatch {
+      height: 92px;
+    }
+  }
+
+  @media (max-width: 440px) {
+    .swatches {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .ts-row {
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .tslabel-inline {
+      width: auto;
+    }
+  }
+</style>
+</content>
