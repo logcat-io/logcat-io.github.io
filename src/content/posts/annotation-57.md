@@ -1,5 +1,5 @@
 ---
-title: 어노테이션(Annotation)이란?
+title: "[JAVA] 어노테이션(Annotation)이란?"
 description: 이번 글에서는 어노테이션에 대해서 간단하게 정리하고자 한다.
 pubDate: '2023-11-09T14:19:52+09:00'
 dateSource: html-visible

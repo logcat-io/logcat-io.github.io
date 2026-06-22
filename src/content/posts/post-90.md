@@ -1,5 +1,5 @@
 ---
-title: '#1 생성자 대신 정적 팩터리 메서드를 고려하라'
+title: "[JAVA] #1 생성자 대신 정적 팩터리 메서드를 고려하라"
 description: '정적 팩터리 메서드는 new 키워드로 객체를 직접 생성하지 않고,'
 pubDate: '2025-09-15T19:59:12+09:00'
 dateSource: html-visible
@@ -19,10 +19,6 @@ legacy:
   sourceHtml: 90/90.html
   sourceHash: 'sha256:045bbded7aa4d88dd796f1f7cb5642a0c23c1905216f56ca782eb6513109cc8e'
 ---
-
-목차
-
-* * *
 
 ## 중점적으로 봐야 하는 내용
 

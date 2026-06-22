@@ -1,5 +1,5 @@
 ---
-title: SpringBoot + Redisson을 활용한 동시성 문제 해결하기
+title: "[SPRING] SpringBoot + Redisson을 활용한 동시성 문제 해결하기"
 description: 'SpringBoot를 기반으로 실시간 투표 애플리케이션을 구현하면서, 한 가지 실험을 수행했다.'
 pubDate: '2024-02-15T02:35:17+09:00'
 dateSource: html-visible
@@ -22,10 +22,6 @@ legacy:
   sourceHtml: 73/73.html
   sourceHash: 'sha256:cab41e2625ddbb41385048205e3c7e9b48736f6d74a2bdec7863c47087b01898'
 ---
-
-목차
-
-* * *
 
 ## 들어가며
 

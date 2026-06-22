@@ -1,5 +1,5 @@
 ---
-title: 'JVM Class Loading, Metaspace, 그리고 메서드 바이트코드까지 한 번에 이해하기'
+title: "[JAVA] JVM Class Loading, Metaspace, 그리고 메서드 바이트코드까지 한 번에 이해하기"
 description: >-
   요즘 JVM의 클래스 로딩, 링킹, 그리고 ClassLoader.defineClass() 구현까지 따라가면서 공부하고 있다. 단순히 클래스
   로딩 → 메서드 영역 → 실행 처럼 외워서는 금방 잊어버리게 되어, .class 파일의 바이트코드가 JVM 내부에서 어떤 객체/메모리 구조로

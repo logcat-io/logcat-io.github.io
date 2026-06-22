@@ -1,5 +1,5 @@
 ---
-title: '워커 여럿과 SKIP LOCKED, 그리고 claim_token'
+title: "[PROJECT] 워커 여럿과 SKIP LOCKED, 그리고 claim_token"
 description: worker 하나의 처리량은 곧 한계다. 여러 개 돌리면 된다 — 그 순간 같은 PENDING을 둘이 집는 문제가 생긴다.
 pubDate: '2026-06-11T18:24:20+09:00'
 dateSource: html-visible

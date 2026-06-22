@@ -1,5 +1,5 @@
 ---
-title: JSP / Maven / Tomcat 프로젝트 생성하기
+title: "[JSP] JSP / Maven / Tomcat 프로젝트 생성하기"
 description: '본 포스팅은 Intellij Ultimate IDEA, Tomcat 9.0.73, Java 11.0.18을 통해 진행되었습니다.'
 pubDate: '2023-04-29T01:46:52+09:00'
 dateSource: html-visible

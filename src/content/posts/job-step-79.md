@@ -1,5 +1,5 @@
 ---
-title: 동일한 Job과 Step이 반복 실행되지 않는 문제
+title: "[SPRING BATCH] 동일한 Job과 Step이 반복 실행되지 않는 문제"
 description: 티켓팅 프로젝트에서 배치 잡을 구현하면서 다음과 같은 예외를 마주하였다.
 pubDate: '2024-05-18T15:55:52+09:00'
 dateSource: html-visible
@@ -12,10 +12,6 @@ legacy:
   sourceHtml: 79/79.html
   sourceHash: 'sha256:2539e6439266cdb89f7720ce6d23d91e8691296ecd9c856eb4c80687d1600d6b'
 ---
-
-목차
-
-* * *
 
 ## \# 문제
 

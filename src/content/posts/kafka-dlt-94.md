@@ -1,5 +1,5 @@
 ---
-title: 'Kafka 기초 정리 (메시지 큐, 파티션, DLT, 클러스터 구조)'
+title: "[KAFKA] Kafka 기초 정리 (메시지 큐, 파티션, DLT, 클러스터 구조)"
 description: >-
   기존의 모놀리식 애플리케이션을 MSA로 마이그레이션하면서 이벤트 기반 통신이 필요하게되었다. 이를 위해 Redis, RabbitMQ,
   Kafka 등의 다양한 도구가 있겠지만, MSA 구조에서 많은 장점을 가진 Kafka를 이번 구현에서 선택했다.

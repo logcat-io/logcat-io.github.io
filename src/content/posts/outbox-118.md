@@ -1,5 +1,5 @@
 ---
-title: 유실은 어디서 생기나 — outbox로 잃을 틈을 없애기
+title: "[PROJECT] 유실은 어디서 생기나 — outbox로 잃을 틈을 없애기"
 description: 0편에서 전송이 "한 번 호출하고 끝이라 실패하면 증발"이라고 적었다. 정확히 어디서 사라지는지를 이 글에서 본다.
 pubDate: '2026-06-10T20:58:38+09:00'
 dateSource: html-visible

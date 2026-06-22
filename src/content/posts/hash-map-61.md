@@ -1,5 +1,5 @@
 ---
-title: HashMap이란?
+title: "[JAVA] HashMap이란?"
 description: >-
   자바를 사용하다 보면 Map 자료구조를 많이 활용하게 된다. Map은 키와 값으로 이루어져 있고, 이때 키는 값을 구분하기 위한 유일한
   값이다.
@@ -19,7 +19,7 @@ legacy:
 >   
 > 원본: https://d2.naver.com/helloworld/831311
 
-* * *
+## HashMap과 Hashtable의 차이
 
 자바를 사용하다 보면 **Map 자료구조**를 많이 활용하게 된다. Map은 **키**와 **값**으로 이루어져 있고, 이때 키는 값을 구분하기 위한 유일한 값이다.
 
@@ -142,6 +142,8 @@ public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneab
 	...
 ```
 
+## 해시 함수와 버켓
+
 map은 수학 함수에서 대응 관계를 지칭할 때 사용한다. 이를 HashMap에 대입한다면, HashMap은 키의 집합인 정의역과 값의 집합인 공역의 대응에 해시 함수를 이용한다고 해석할 수 있다.  
   
 완전한 해시 함수는 동일하지 않는 두 객체 X와 Y가 있을 때, X.equals(Y) == false & X.hashCode() != Y.hashCode()인 경우를 의미한다.  
@@ -159,6 +161,8 @@ transient Node<K,V>[] table;
 
 **X.hashCode() % M**
 
+## 해시 충돌을 해결하는 두 가지 방법
+
 하지만 위의 코드에서는 서로 다른 해시 코드를 가지는 서로 다른 객체가 1/M의 확률로 같은 해시 버킷을 사용하게 될 수 있고 이를 해시 충돌이라고 한다. 이때 해시 충돌이 발생하더라도 키-값 쌍의 데이터를 저장하고 조회할 수 있도록 하는 방법에는 대표적으로 두 가지의 방법이 있다.
 
 1.  **Open Addressing**: 만약 데이터를 삽입하려고 하는 버켓이 이미 사용 중인 경우 다른 해시 버켓에 삽입한다. 이때 버켓을 찾는 방법에는 Linear Probing, Quadratic Probing 등이 있다.
@@ -172,6 +176,8 @@ transient Node<K,V>[] table;
 
 HashMap의 해시 충돌 해결 방법 중 Separate Chaining을 사용한다. Open Addressing의 경우 데이터를 삭제할 때 효율이 좋지 못하다.  
   
+## Java 8: 링크드 리스트에서 트리로
+
 하지만 Separate Chainig도 자바의 버전에 따라서 HashMap 에서의 구현코드가 계속해서 변경되었다. Java 2 부터 7 까지의 HashMap에서는 Separate Chainig 구현에서 링크드 리스트를 사용했다면, Java 8 부터는 데이터의 개수가 일정 개수 이상이 되면 링크드 리스트 대신 트리를 사용한다.  
   
 이때 일정 개수의 기준은 상수로 구현되어 있는데 다음과 같다.
@@ -219,6 +225,8 @@ static int tieBreakOrder(Object a, Object b) {
 	return d;  
 }
 ```
+
+## 버켓 resize와 보조 해시 함수
 
 해시 버켓의 개수가 적다면 메모리 사용을 아낄 수 있지만, 위에서 언급한 해시 충돌의 문제로 인해서 성능 저하를 발생시킬 수 있다. HashMap은 이러한 문제에 대해서 데이터의 개수가 일정 개수 이상이 되면, 해시 버켓의 개수를 두 배로 늘리게 된다. 개수가 늘어나면 해시 충돌을 감소 시킬 수 있기 때문이다. 해당 과정은 resize() 메서드에 구현되어 있고, 아래는 resize() 메서드의 일부다.
 

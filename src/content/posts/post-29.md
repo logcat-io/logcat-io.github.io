@@ -1,5 +1,5 @@
 ---
-title: 웹 브라우저
+title: "[NETWORK] 웹 브라우저"
 description: 웹 개발을 공부하다 보면 다음과 같은 그림을 많이 보게 된다.
 pubDate: '2023-05-26T23:57:29+09:00'
 dateSource: html-visible

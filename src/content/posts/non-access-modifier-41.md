@@ -1,5 +1,5 @@
 ---
-title: Non-Access Modifier란?
+title: "[JAVA] Non-Access Modifier란?"
 description: 총 7개의 Non-Access Modifier가 도입되었으며 아래와 같다.
 pubDate: '2023-10-10T18:35:57+09:00'
 dateSource: html-visible

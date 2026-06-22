@@ -1,5 +1,5 @@
 ---
-title: 직렬화(Serialization)란?
+title: "[JAVA] 직렬화(Serialization)란?"
 description: '이번에 채팅 앱 프로젝트를 진행하면서, Redis를 사용하게 되었습니다.'
 pubDate: '2023-08-20T23:36:33+09:00'
 dateSource: html-visible

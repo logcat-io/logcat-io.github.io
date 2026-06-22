@@ -1,5 +1,5 @@
 ---
-title: 왜 WebFlux를 선택했는가? (Tomcat NIO와 비교)
+title: "[SPRING] 왜 WebFlux를 선택했는가? (Tomcat NIO와 비교)"
 description: 티켓팅 프로젝트에서 Spring WebFlux를 사용했다는 이야기를 하면 종종 이런 질문을 받습니다.
 pubDate: '2025-09-26T18:25:05+09:00'
 dateSource: html-visible

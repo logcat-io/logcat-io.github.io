@@ -1,5 +1,5 @@
 ---
-title: String constant pool이란?
+title: "[JAVA] String constant pool이란?"
 description: >-
   이전 글에서 Java의 String 클래스의 특징을 알아볼 때, 객체의 공유 특성을 설명하면서 String constant pool에 대해서
   언급했다. 이번 글에서는 String constant pool에 대해서 설명하고자 한다.

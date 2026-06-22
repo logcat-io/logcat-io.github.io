@@ -1,5 +1,5 @@
 ---
-title: IO 바운드 vs CPU 바운드 작업의 병렬 처리 방식
+title: "[CS] IO 바운드 vs CPU 바운드 작업의 병렬 처리 방식"
 description: 데이터를 주고받는 시간이 더 오래 걸리는 작업.
 pubDate: '2025-08-28T23:26:49+09:00'
 dateSource: html-visible
@@ -20,10 +20,6 @@ legacy:
   sourceHtml: '84/84-[OS]-IO-바운드-vs-CPU-바운드-작업의-병렬-처리-방식.html'
   sourceHash: 'sha256:8785bb5252edd7ffa9bc8748a3512564ff801d78009d4521ad9cda90010a6805'
 ---
-
-목차
-
-* * *
 
 ## 용어 정리
 

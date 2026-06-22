@@ -1,5 +1,5 @@
 ---
-title: 'MVCC 학습 문서: MySQL(InnoDB)와 PostgreSQL을 함께 이해하기'
+title: "[DATABASE] MVCC 학습 문서: MySQL(InnoDB)와 PostgreSQL을 함께 이해하기"
 description: >-
   이 글은 MVCC를 이론에서 시작해 실습으로 내려오는 순서로 정리한 글이다. 먼저 MVCC 가 왜 필요한지에 대해서 이해하고, MySQL과
   PostgreSQL이 MVCC를 구현한 방식에 대해서 간단히 살펴본다. 마지막으로 간단한 SQL 실습을 통해서 MVCC가 동작함을 확인한다.

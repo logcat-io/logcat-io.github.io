@@ -1,5 +1,5 @@
 ---
-title: 워커가 죽으면 — graceful shutdown과 stuck recovery
+title: "[PROJECT] 워커가 죽으면 — graceful shutdown과 stuck recovery"
 description: 3편의 숙제가 끝난 여기서 고려해야 할 점이 있다. 바로 worker가 PROCESSING으로 잡아둔 채 죽으면 그 이벤트는 누가 푸는지다.
 pubDate: '2026-06-11T18:24:24+09:00'
 dateSource: html-visible

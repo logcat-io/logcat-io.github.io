@@ -1,5 +1,5 @@
 ---
-title: infer
+title: "[TYPESCRIPT] infer"
 description: >-
   타입스크립트를 조금만 깊게 쓰다 보면 infer라는 정체불명의 키워드를 보게 된다. ReturnType, Parameters,
   ConstructorParameters 같은 공식 유틸리티 타입들의 핵심에도 항상 숨어 있는 존재이다.
@@ -17,10 +17,6 @@ legacy:
   sourceHtml: '87/87-[TypeScript]-infer.html'
   sourceHash: 'sha256:ba48a3fdf436d120f70d6bd402ef9d49dc1f44b8da3247b74a1b64a48d4bae43'
 ---
-
-목차
-
-* * *
 
 타입스크립트를 조금만 깊게 쓰다 보면 infer라는 정체불명의 키워드를 보게 된다. ReturnType, Parameters, ConstructorParameters 같은 공식 유틸리티 타입들의 핵심에도 항상 숨어 있는 존재이다.
 

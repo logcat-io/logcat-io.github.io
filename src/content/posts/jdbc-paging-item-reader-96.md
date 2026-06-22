@@ -1,5 +1,5 @@
 ---
-title: JdbcPagingItemReader 정리
+title: "[SPRING BATCH] JdbcPagingItemReader 정리"
 description: JdbcPagingItemReader는 keyset 기반 페이징 방식을 통해 데이터를 일정 단위로 나누어 읽는 ItemReader이다.
 pubDate: '2025-12-13T21:16:11+09:00'
 dateSource: html-visible

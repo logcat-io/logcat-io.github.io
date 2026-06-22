@@ -1,5 +1,5 @@
 ---
-title: DBMS와 실행 계획
+title: "[DATABASE] DBMS와 실행 계획"
 description: "\b일반적으로 관계형 데이터베이스(RDB)를 조작할 때는 SQL를 사용한다."
 pubDate: '2023-10-04T22:06:57+09:00'
 dateSource: html-visible

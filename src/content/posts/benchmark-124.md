@@ -1,5 +1,5 @@
 ---
-title: 신뢰성을 증명하다 — 동시성 테스트와 benchmark
+title: "[PROJECT] 신뢰성을 증명하다 — 동시성 테스트와 benchmark"
 description: >-
   6편까지 뼈대를 다 세웠다. outbox로 안 잃고, SKIP LOCKED로 안 겹치고, recovery로 복구하고, 멱등으로 중복을
   흡수한다. 그런데 여기까지는 전부 주장 이다.

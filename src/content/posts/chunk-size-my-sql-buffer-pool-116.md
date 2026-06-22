@@ -1,5 +1,5 @@
 ---
-title: chunk size를 키우면 MySQL buffer pool이 흔들릴까?
+title: "[DATABASE] chunk size를 키우면 MySQL buffer pool이 흔들릴까?"
 description: 면접에서 이런 질문을 받은 적이 있다.
 pubDate: '2026-06-03T02:23:50+09:00'
 dateSource: html-visible

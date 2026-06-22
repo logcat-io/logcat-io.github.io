@@ -1,5 +1,5 @@
 ---
-title: 'PostgreSQL은 row를 바로 읽지 않는다: heap tuple, TID, MVCC를 연결해서 보기'
+title: "[DATABASE] PostgreSQL은 row를 바로 읽지 않는다: heap tuple, TID, MVCC를 연결해서 보기"
 description: PostgreSQL storage를 공부하면서 가장 먼저 정리해야 할 감각은 이것이었다.
 pubDate: '2026-05-30T21:55:54+09:00'
 dateSource: html-visible

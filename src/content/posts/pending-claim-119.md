@@ -1,5 +1,5 @@
 ---
-title: 워커가 PENDING을 집어 보낸다 — claim과 재시도
+title: "[PROJECT] 워커가 PENDING을 집어 보낸다 — claim과 재시도"
 description: 1편에서 outbox에 PENDING이 쌓이는 데까지 만들었다. 집어서 보내는 주체는 없었다. 이번 편이 그 worker다.
 pubDate: '2026-06-11T18:24:14+09:00'
 dateSource: html-visible

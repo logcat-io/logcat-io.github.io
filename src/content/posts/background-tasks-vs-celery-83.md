@@ -1,5 +1,5 @@
 ---
-title: '? BackgroundTasks vs Celery — 언제 뭐 쓰면 좋을까?'
+title: "[FASTAPI] BackgroundTasks vs Celery — 언제 뭐 쓰면 좋을까?"
 description: >-
   FastAPI에서 비동기 백그라운드 작업을 할 때, 가볍게 BackgroundTasks를 쓸지, 아니면 Celery를 쓸지 고민한 적이 있을
   것이다.
@@ -19,10 +19,6 @@ legacy:
   sourceHtml: 83/83.html
   sourceHash: 'sha256:b1813779ff7f9b9739d24e8990bbd303dddf0cee870643412da04e287907a107'
 ---
-
-목차
-
-* * *
 
 FastAPI에서 비동기 백그라운드 작업을 할 때, 가볍게 BackgroundTasks를 쓸지, 아니면 Celery를 쓸지 고민한 적이 있을 것이다.
 

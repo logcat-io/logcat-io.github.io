@@ -1,5 +1,5 @@
 ---
-title: 자바 synchronized 를 바이트코드로 까보며 이해하기
+title: "[JAVA] 자바 synchronized 를 바이트코드로 까보며 이해하기"
 description: >-
   자바에서 synchronized는 모니터 락을 잡는다 정도로 보통 설명하지만, 실제로 JVM 바이트코드 레벨에서는 어떻게 구현되는지
   궁금해졌다. 간단한 Account 예제를 작성해서 javap -c -v로 디스어셈블하고, synchronized 블록과 메서드가 어떤

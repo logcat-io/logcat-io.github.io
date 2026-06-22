@@ -1,5 +1,5 @@
 ---
-title: sealed class를 처음 이해할 때 가장 헷갈렸던 것들
+title: "[KOTLIN] sealed class를 처음 이해할 때 가장 헷갈렸던 것들"
 description: >-
   Kotlin을 공부하다 보면 sealed class 문법을 꽤 빨리 마주치게 된다. 특히 상태를 모델링하거나, 성공/실패 결과를 타입으로
   표현하려고 할 때 자주 등장한다. 그런데 처음 보면 가장 먼저 막히는 지점이 있다. object Success : Result() 같은

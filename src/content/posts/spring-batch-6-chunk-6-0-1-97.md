@@ -1,5 +1,5 @@
 ---
-title: Spring Batch 6 도입 중 Chunk 기반 처리 버그 디버깅 및 6.0.1 패치 적용
+title: "[SPRING BATCH] Spring Batch 6 도입 중 Chunk 기반 처리 버그 디버깅 및 6.0.1 패치 적용"
 description: >-
   배치 서버 신규 이관 작업을 진행하면서 Spring Batch 6 버전을 도입하였다. Spring Boot 3.x, Java 21 환경을
   기준으로 배치 서버를 구성하는 상황이었기 때문에, Spring Batch 역시 최신 메이저 버전을 사용하는 것이 자연스러운 선택이었다.

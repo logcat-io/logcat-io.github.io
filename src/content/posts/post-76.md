@@ -1,5 +1,5 @@
 ---
-title: 이미지 캐시를 활용한 이미지 빌드 시간 개선하기
+title: "[DOCKER] 이미지 캐시를 활용한 이미지 빌드 시간 개선하기"
 description: >-
   프로젝트를 진행하면서 애플리케이션을 수동으로 배포하는 과정이 생산성에 영향을 주게 되어, Github Actions와 도커를 활용하여
   CICD 파이프라인을 구축했다. 이때 애플리케이션을 도커 이미지로 빌드한 뒤 배포를 수행하였는데, 이미지 레이어의 캐시를 통해서 빌드 시간을
@@ -21,7 +21,7 @@ tags:
   - gadle
   - build
   - optimization
-category: Infra/Dcoker
+category: Infra/Docker
 cover: /images/posts/post-76/screenshot-2024-03-06-at-11-18-18-am.png
 draft: false
 legacy:
@@ -29,10 +29,6 @@ legacy:
   sourceHtml: '76/76-[Docker]-이미지-캐시를-활용한-이미지-빌드-시간-개선하기.html'
   sourceHash: 'sha256:f8f14a0f79cc779a96e4b335f3a65e30270b83e65fa56b06bed653d7ac0ce8c6'
 ---
-
-목차
-
-* * *
 
 ## 들어가며
 

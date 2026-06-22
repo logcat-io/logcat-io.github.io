@@ -1,5 +1,5 @@
 ---
-title: 'MySQL은 row를 캐시하지 않는다: Buffer Pool, LRU, 그리고 scan pollution 이해하기'
+title: "[DATABASE] MySQL은 row를 캐시하지 않는다: Buffer Pool, LRU, 그리고 scan pollution 이해하기"
 description: >-
   MySQL/InnoDB를 공부하다 보면 처음에는 쿼리, 인덱스, 실행 계획에 시선이 많이 간다.EXPLAIN에서 어떤 index를 타는지,
   type이 ref인지 range인지, rows 추정치가 얼마나 되는지부터 보게 된다.

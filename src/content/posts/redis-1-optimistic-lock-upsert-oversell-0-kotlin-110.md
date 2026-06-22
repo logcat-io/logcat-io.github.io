@@ -1,7 +1,5 @@
 ---
-title: >-
-  Redis 1차 필터 + Optimistic Lock + UPSERT로 Oversell 0건 만든 타임딜 재고 차감 시스템
-  (Kotlin/Spring/PostgreSQL)
+title: "[REDIS] Redis 1차 필터 + Optimistic Lock + UPSERT로 Oversell 0건 만든 타임딜 재고 차감 시스템 (Kotlin/Spring/PostgreSQL)"
 description: 이 글의 목표는 DB를 보호하면서 타임딜 재고 오버셀과 이중 결제·중복 쿠폰 같은 사고를 막는 3중 방어선을 설계·검증하는 것이다.
 pubDate: '2026-04-30T17:02:34+09:00'
 dateSource: html-visible

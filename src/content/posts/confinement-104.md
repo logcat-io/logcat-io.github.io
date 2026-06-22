@@ -1,5 +1,5 @@
 ---
-title: '스레드 안전한 공유 객체를 만드는 세 가지 축: 불변, 공개, confinement'
+title: "[JAVA] 스레드 안전한 공유 객체를 만드는 세 가지 축: 불변, 공개, confinement"
 description: 이 글은 공유 객체를 어떻게 설계·공개해야 안전한가를 JMM(Java Memory Model)과 JIT 관점까지 엮어서 정리한 것이다.
 pubDate: '2026-04-06T23:29:30+09:00'
 dateSource: html-visible

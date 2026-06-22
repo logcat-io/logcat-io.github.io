@@ -1,5 +1,5 @@
 ---
-title: InnoDB와 PostgreSQL은 같은 RDBMS지만 다른 곳을 봐야 한다
+title: "[DATABASE] InnoDB와 PostgreSQL은 같은 RDBMS지만 다른 곳을 봐야 한다"
 description: MySQL/InnoDB와 PostgreSQL을 같이 공부하다 보면 같은 단어가 계속 나온다.
 pubDate: '2026-06-20T15:18:39+09:00'
 dateSource: html-visible

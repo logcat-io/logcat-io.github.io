@@ -1,5 +1,5 @@
 ---
-title: 윈도우 함수 + VIEW 조합의 성능 함정
+title: "[DATABASE] 윈도우 함수 + VIEW 조합의 성능 함정"
 description: '1\. 들어가며: "VIEW에 윈도우 함수가 있으면 인덱스가 안 먹힌다?"'
 pubDate: '2026-03-03T22:59:57+09:00'
 dateSource: html-visible

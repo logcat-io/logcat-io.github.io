@@ -1,5 +1,5 @@
 ---
-title: build와 bootJar란?
+title: "[SPRING] build와 bootJar란?"
 description: >-
   Gradle로 Spring Boot application을 생성 후 jar 파일 생성하는 방법에 build와 bootJar가 있다는 것을
   알게 되었다. 지금까지 고민하지 않고 build만을 사용했는데, 이번 글에서 간단히 정리하고자 한다.

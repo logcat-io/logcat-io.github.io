@@ -1,5 +1,5 @@
 ---
-title: SELECT FOR UPDATE를 pg_locks로 따라가 보기
+title: "[DATABASE] SELECT FOR UPDATE를 pg_locks로 따라가 보기"
 description: PostgreSQL에서 SELECT ... FOR UPDATE를 실행하면 row lock이 잡힌다고 말한다.
 pubDate: '2026-06-20T15:49:41+09:00'
 dateSource: html-visible

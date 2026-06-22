@@ -1,7 +1,5 @@
 ---
-title: >-
-  @RequestParam 예외: Name for argument of type [java.lang.String] not specified,
-  and parameter name information not available via reflection.
+title: "[SPRING] @RequestParam 예외: Name for argument of type [java.lang.String] not specified, and parameter name information not available via reflection."
 description: 프로젝트를 수행하면서 우연히 질문을 받게 되었다.
 pubDate: '2024-01-18T17:39:10+09:00'
 dateSource: html-visible
@@ -16,10 +14,6 @@ legacy:
   sourceHtml: 72/72.html
   sourceHash: 'sha256:ec4709cfa6763a82c8bf308afc1e085fe79c0681ab21d5b5000ec55693888147'
 ---
-
-목차
-
-* * *
 
 프로젝트를 수행하면서 우연히 질문을 받게 되었다.
 

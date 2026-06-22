@@ -1,5 +1,5 @@
 ---
-title: 'ERROR: TS2550 tsconfig.json이 무시되는 이유와 해결 방법'
+title: "[TYPESCRIPT] ERROR: TS2550 tsconfig.json이 무시되는 이유와 해결 방법"
 description: >-
   TypeScript를 쓰다 보면 동일한 코드임에도 실행 방식에 따라 오류가 발생하는 경우가 있다. 이번 글에서는 npm run dev에서만
   findIndex 같은 ES2015 메서드가 인식되지 않는 TS2550 오류를 파헤치고, monorepo 환경에서 자주 겪는 tsconfig
@@ -19,10 +19,6 @@ legacy:
   sourceHtml: 86/86.html
   sourceHash: 'sha256:36812ca2c84edfdbb26164258b341bd96bc7f39bb84be49da4c442288678b20d'
 ---
-
-목차
-
-* * *
 
 ## npm run dev에서만 TS2550 오류가 발생하는 이유
 

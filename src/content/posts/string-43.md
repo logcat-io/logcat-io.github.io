@@ -1,5 +1,5 @@
 ---
-title: String 클래스의 특징
+title: "[JAVA] String 클래스의 특징"
 description: 먼저 String 클래스가 무엇인지 간단히 알아보자.
 pubDate: '2023-10-12T18:22:12+09:00'
 dateSource: html-visible

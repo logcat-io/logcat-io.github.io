@@ -1,5 +1,5 @@
 ---
-title: Kafka에서 Avro를 사용하는 이유
+title: "[KAFKA] Kafka에서 Avro를 사용하는 이유"
 description: Kafka 환경에서 데이터를 주고받을 때 직렬화(Serialization) 과정은 필수이다.
 pubDate: '2025-11-04T20:30:53+09:00'
 dateSource: html-visible

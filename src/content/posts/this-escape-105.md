@@ -1,5 +1,5 @@
 ---
-title: 생성자에서 리스너 등록하다가 this escape 나는 이유
+title: "[JAVA] 생성자에서 리스너 등록하다가 this escape 나는 이유"
 description: 'public class EarlyPublish {'
 pubDate: '2026-04-07T22:02:59+09:00'
 dateSource: html-visible

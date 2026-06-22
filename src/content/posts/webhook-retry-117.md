@@ -1,5 +1,5 @@
 ---
-title: 왜 webhook 전송을 직접 다시 만들었나 — @Retry 가 숨긴 것
+title: "[PROJECT] 왜 webhook 전송을 직접 다시 만들었나 — @Retry 가 숨긴 것"
 description: >-
   전 직장에서 외부로 알림과 이벤트를 보내는 코드를 자주 들여다봤다. Notifly로 가는 푸시, Mixpanel로 가는 이벤트. 나도 그
   위에 기능을 얹던 사람 중 하나였다.

@@ -1,5 +1,5 @@
 ---
-title: '? OAuth2 Scopes'
+title: "[FASTAPI] OAuth2 Scopes"
 description: 'FastAPI는 Python 기반의 최신 웹 프레임워크로, 속도와 직관성을 동시에 제공하는 것으로 유명한 프레임워크이다.'
 pubDate: '2025-08-10T14:31:30+09:00'
 dateSource: html-visible
@@ -18,10 +18,6 @@ legacy:
   sourceHtml: '82/82-[FastAPI]-?-OAuth2-Scopes.html'
   sourceHash: 'sha256:fb9d17d727114e2ed5165dbdfd1ce3658a57c8348e483fa139c1c061cefa7f69'
 ---
-
-목차
-
-* * *
 
 FastAPI는 Python 기반의 최신 웹 프레임워크로, 속도와 직관성을 동시에 제공하는 것으로 유명한 프레임워크이다.  
 그중에서도 **OAuth2 Scopes** 기능은 보안과 권한 관리에서 매우 중요한 역할을 한다.

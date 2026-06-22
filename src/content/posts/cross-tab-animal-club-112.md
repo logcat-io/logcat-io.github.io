@@ -1,5 +1,5 @@
 ---
-title: 여러 브라우저 탭이 서로 상호작용하는 Cross-tab Animal Club 구현기
+title: "[PROJECT] 여러 브라우저 탭이 서로 상호작용하는 Cross-tab Animal Club 구현기"
 description: >-
   브라우저에서 같은 HTML 파일을 여러 탭이나 창으로 열었을 때, 각 창이 서로의 존재와 위치를 알고 상호작용한다면 꽤 재미있는 장난감을
   만들 수 있다.

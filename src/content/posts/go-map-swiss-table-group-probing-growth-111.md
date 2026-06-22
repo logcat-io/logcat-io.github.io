@@ -1,5 +1,5 @@
 ---
-title: 'Go map 내부 구조 뜯어보기 - Swiss Table, group, probing, growth'
+title: "[GO] Go map 내부 구조 뜯어보기 - Swiss Table, group, probing, growth"
 description: Go에서 map은 겉으로 보면 평범한 키-값 저장소다. 하지만 런타임 안쪽으로 들어가면 버전마다 꽤 다른 구현을 만난다.
 pubDate: '2026-05-12T19:50:28+09:00'
 dateSource: html-visible
