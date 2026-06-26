@@ -1,6 +1,7 @@
 ---
 import PixelSprite from '../components/PixelSprite.astro';
 import SEO from '../components/SEO.astro';
+import VisitorCounter from '../components/VisitorCounter.astro';
 import type { ArticleMeta } from '../components/SEO.astro';
 import { sprites } from '../data/sprites';
 import { getPublishedPosts } from '../lib/posts';
@@ -82,6 +83,7 @@ const deployDate = new Intl.DateTimeFormat('en-CA', {
           <a href="/about/" aria-current={navActive('/about/') ? 'page' : undefined}>ABOUT</a>
           <a href="/rss.xml">RSS</a>
         </nav>
+        <VisitorCounter variant="nav" />
       </header>
       <main class="page-main">
         <slot />
@@ -93,7 +95,11 @@ const deployDate = new Intl.DateTimeFormat('en-CA', {
         </div>
         <div class="status">
           <span class="dot"></span>
-          <span>BUILD OK · {postCount} POSTS · LAST DEPLOY {deployDate} · COOKIELESS ANALYTICS</span>
+          <span
+            >BUILD OK · {postCount} POSTS<VisitorCounter variant="footer" /> · LAST DEPLOY {
+              deployDate
+            } · COOKIELESS ANALYTICS</span
+          >
         </div>
       </footer>
     </div>

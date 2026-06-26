@@ -1,0 +1,96 @@
+---
+// 방문자 카운터 — GoatCounter 공개 카운터(/counter/TOTAL.json)를 클라이언트에서 직접 읽음.
+// 내 DB·서버·API 토큰 0. 카운터가 꺼져 있거나(403) fetch 실패하면 placeholder 는 숨김 유지 → 레이아웃 안 깨짐.
+// ⚠️ 동작하려면 GoatCounter 설정에서 "Allow adding visitor counts on your website" 를 켜야 함.
+interface Props {
+  variant: 'nav' | 'footer';
+}
+const { variant } = Astro.props;
+---
+
+{
+  variant === 'nav' && (
+    <span class="visit visit--nav" data-visit hidden aria-label="방문자 — 오늘 / 누적">
+      <span class="visit-dot" aria-hidden="true" />
+      <b data-gc-today>–</b>
+      <span class="visit-sep" aria-hidden="true">/</span>
+      <b data-gc-total>–</b>
+    </span>
+  )
+}
+{
+  variant === 'footer' && (
+    <span class="visit visit--footer" data-visit hidden>
+      {' · TODAY '}
+      <b data-gc-today>–</b>
+      {' · TOTAL '}
+      <b data-gc-total>–</b>
+    </span>
+  )
+}
+
+<script>
+  const ENDPOINT = 'https://logcat.goatcounter.com/counter/TOTAL.json';
+  // KST 기준 오늘(YYYY-MM-DD) — en-CA 로케일이 ISO 형식을 보장. deployDate 와 동일한 타임존.
+  const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Seoul' }).format(new Date());
+
+  (async () => {
+    try {
+      const [totalRes, todayRes] = await Promise.all([
+        fetch(ENDPOINT),
+        fetch(`${ENDPOINT}?start=${today}`),
+      ]);
+      if (!totalRes.ok) return; // 카운터 비활성/오류 → 숨김 유지
+      const total = await totalRes.json();
+      const todayData = todayRes.ok ? await todayRes.json() : null;
+
+      document
+        .querySelectorAll<HTMLElement>('[data-gc-total]')
+        .forEach((el) => { el.textContent = total.count; });
+      document
+        .querySelectorAll<HTMLElement>('[data-gc-today]')
+        .forEach((el) => { el.textContent = todayData ? todayData.count : '0'; });
+      document
+        .querySelectorAll<HTMLElement>('[data-visit]')
+        .forEach((el) => { el.hidden = false; });
+    } catch {
+      /* 네트워크 오류 → placeholder 숨김 유지 */
+    }
+  })();
+</script>
+
+<style>
+  .visit[hidden] {
+    display: none;
+  }
+
+  /* 네브바 우측: ⊙ 12 / 3,456 */
+  .visit--nav {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: var(--g-45);
+  }
+  .visit--nav .visit-dot {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    background: var(--ink);
+  }
+  .visit--nav b {
+    color: var(--ink);
+    font-weight: 700;
+  }
+  .visit--nav .visit-sep {
+    opacity: 0.45;
+  }
+
+  /* 푸터 상태 줄: ... · TODAY 12 · TOTAL 3,456 · ... (모노/대문자/자간은 .status 에서 상속) */
+  .visit--footer b {
+    color: var(--g-60);
+    font-weight: 600;
+  }
+</style>
