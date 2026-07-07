@@ -19,6 +19,9 @@ legacy:
   tistoryId: '115'
   sourceHtml: 115/115.html
   sourceHash: 'sha256:76ea1e47087d48bb435056380e3795ec8999f4777f07cfe07eb219cead381a43'
+series:
+  name: "InnoDB와 PostgreSQL 내부 구조"
+  order: 3
 ---
 
 PostgreSQL storage를 공부하면서 가장 먼저 정리해야 할 감각은 이것이었다.

@@ -12,6 +12,9 @@ tags:
   - aop
 category: spring
 draft: false
+series:
+  name: "스프링 프록시와 트랜잭션"
+  order: 1
 ---
 
 Spring 프록시가 헷갈려서 빈 몇 개의 실제 타입을 찍어봤다. `bean.javaClass.name` 한 줄. 그랬더니 같은 애플리케이션 안에서 두 종류가 나왔다.

@@ -20,6 +20,9 @@ legacy:
   tistoryId: '116'
   sourceHtml: 116/116.html
   sourceHash: 'sha256:656e1f30953016f3129a2695a03d219ed8dc0ea84c60c430d40e44aac9ba6d99'
+series:
+  name: "InnoDB와 PostgreSQL 내부 구조"
+  order: 4
 ---
 
 면접에서 이런 질문을 받은 적이 있다.

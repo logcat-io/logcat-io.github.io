@@ -16,6 +16,9 @@ legacy:
   tistoryId: '108'
   sourceHtml: 108/108.html
   sourceHash: 'sha256:38a04a7f57ce72a349744a90f706599949d1a9ed156e74afde20b1d3cecd06c2'
+series:
+  name: "배송 권역 시스템"
+  order: 3
 ---
 
 > "balance 0.51 — 양호해 보였던 결과"가 함정이었다.  

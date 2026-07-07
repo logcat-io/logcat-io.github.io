@@ -11,6 +11,9 @@ legacy:
   tistoryId: '126'
   sourceHtml: 126/126.html
   sourceHash: 'sha256:fb682a9e63eae8ce62b45353050afcef286539228a2a6fbeadd016b78c6b395d'
+series:
+  name: "InnoDB와 PostgreSQL 내부 구조"
+  order: 6
 ---
 
 PostgreSQL에서 `SELECT ... FOR UPDATE`를 실행하면 row lock이 잡힌다고 말한다.

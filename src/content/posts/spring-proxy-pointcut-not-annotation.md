@@ -11,6 +11,9 @@ tags:
   - pointcut
 category: spring
 draft: false
+series:
+  name: "스프링 프록시와 트랜잭션"
+  order: 2
 ---
 
 프록시 종류(JDK냐 CGLIB냐)를 찍어보다가 더 이상한 걸 봤다. `@Service`를 붙인 빈이 프록시가 아니었다.

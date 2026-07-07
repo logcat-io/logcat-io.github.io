@@ -21,6 +21,9 @@ legacy:
   tistoryId: '114'
   sourceHtml: 114/114.html
   sourceHash: 'sha256:29fbe0e8bf3e887fee0224a8087e738ae97446916ad8341c13c6d03ff5833a14'
+series:
+  name: "InnoDB와 PostgreSQL 내부 구조"
+  order: 2
 ---
 
 MySQL/InnoDB를 공부하다 보면 처음에는 쿼리, 인덱스, 실행 계획에 시선이 많이 간다.`EXPLAIN`에서 어떤 index를 타는지, `type`이 `ref`인지 `range`인지, `rows` 추정치가 얼마나 되는지부터 보게 된다.

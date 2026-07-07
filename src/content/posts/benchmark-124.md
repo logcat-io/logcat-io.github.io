@@ -18,6 +18,9 @@ legacy:
   tistoryId: '124'
   sourceHtml: '124/124-[7편]-신뢰성을-증명하다-—-동시성-테스트와-benchmark.html'
   sourceHash: 'sha256:8d643c9c2bd62a2cdabfb66346f2b417e861d976f97477ed2f9de341dbed1df8'
+series:
+  name: "신뢰성 있는 웹훅 디스패처"
+  order: 8
 ---
 
 6편까지 뼈대를 다 세웠다. outbox로 안 잃고, SKIP LOCKED로 안 겹치고, recovery로 복구하고, 멱등으로 중복을 흡수한다. 그런데 여기까지는 전부 _주장_ 이다.

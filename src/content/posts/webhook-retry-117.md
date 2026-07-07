@@ -21,6 +21,9 @@ legacy:
   tistoryId: '117'
   sourceHtml: 117/117.html
   sourceHash: 'sha256:ba1a4d5970b7af4e61ab6a9c9a5955154133fdbfc0842b4a4d5a37441ee45803'
+series:
+  name: "신뢰성 있는 웹훅 디스패처"
+  order: 1
 ---
 
 ## "이거 발행 잘 되고 있나요?"

@@ -5,7 +5,7 @@ import Tag from '../components/Tag.astro';
 import Base from './Base.astro';
 import { formatKstDate } from '../lib/date';
 import { estimateReadingTime } from '../lib/reading-time';
-import { getPublishedPosts, getSignificantTagSet, significantTagsOf } from '../lib/posts';
+import { getPublishedPosts, getSeriesContext, getSignificantTagSet, significantTagsOf } from '../lib/posts';
 import { postHref } from '../lib/slug';
 
 interface Props {
@@ -27,16 +27,29 @@ const publishedTime = post.data.pubDate.toISOString();
 const modifiedTime = (post.data.updatedDate ?? post.data.pubDate).toISOString();
 const seoTags = post.data.tags.length ? post.data.tags : visibleTags;
 
-// 이전/다음 글 (발행 목록 최신순 기준)
 const all = await getPublishedPosts();
+
+// 시리즈(series 필드). 있으면 시리즈 순서로 앞/뒤를, 없으면 전역 시간순으로 이전/다음을 잡는다.
+const seriesCtx = getSeriesContext(post, all);
+
+// 전역 시간순 이전/다음 (시리즈가 아닌 글용)
 const cur = all.findIndex((p) => p.id === post.id);
 const newer = cur > 0 ? all[cur - 1] : null; // 더 최신 = 다음 글
 const older = cur >= 0 && cur < all.length - 1 ? all[cur + 1] : null; // 더 과거 = 이전 글
 
-// 시리즈 = 같은 카테고리의 다른 글
-const seriesPosts = category
-  ? all.filter((p) => p.id !== post.id && p.data.category === category).slice(0, 6)
-  : [];
+// prev/next: 시리즈 안이면 시리즈 순서, 아니면 전역 시간순
+const navPrev = seriesCtx ? seriesCtx.prev : older;
+const navNext = seriesCtx ? seriesCtx.next : newer;
+const prevLabel = seriesCtx ? '← 이전 편' : '← 이전 글';
+const nextLabel = seriesCtx ? '다음 편 →' : '다음 글 →';
+const prevEmpty = seriesCtx ? '시리즈의 처음' : '첫 글입니다';
+const nextEmpty = seriesCtx ? '시리즈의 마지막' : '최신 글입니다';
+
+// 시리즈가 아니면 같은 category 관련 글로 폴백
+const relatedPosts =
+  !seriesCtx && category
+    ? all.filter((p) => p.id !== post.id && p.data.category === category).slice(0, 6)
+    : [];
 ---
 
 <Base
@@ -82,11 +95,40 @@ const seriesPosts = category
       <slot />
     </div>
     {
-      seriesPosts.length > 0 && (
+      seriesCtx && (
         <section class="series" data-pagefind-ignore>
-          <div class="series-head mono">이 시리즈의 다른 글 · {category}</div>
+          <div class="series-head mono">
+            시리즈 · {seriesCtx.name} · {seriesCtx.index + 1} / {seriesCtx.members.length}
+          </div>
+          <ol class="series-list">
+            {seriesCtx.members.map((p, i) =>
+              p.id === post.id ? (
+                <li class="s-item current">
+                  <span class="s-row">
+                    <span class="s-num mono">{String(i + 1).padStart(2, '0')}</span>
+                    <span class="s-title">{p.data.title}</span>
+                    <span class="s-here mono">읽는 중</span>
+                  </span>
+                </li>
+              ) : (
+                <li class="s-item">
+                  <a class="s-row" href={postHref(p.data.slug)}>
+                    <span class="s-num mono">{String(i + 1).padStart(2, '0')}</span>
+                    <span class="s-title">{p.data.title}</span>
+                  </a>
+                </li>
+              ),
+            )}
+          </ol>
+        </section>
+      )
+    }
+    {
+      relatedPosts.length > 0 && (
+        <section class="series" data-pagefind-ignore>
+          <div class="series-head mono">같은 분류 · {category}</div>
           <ul>
-            {seriesPosts.map((p) => (
+            {relatedPosts.map((p) => (
               <li>
                 <a href={postHref(p.data.slug)}>
                   <span class="s-date mono">{formatKstDate(p.data.pubDate)}</span>
@@ -99,28 +141,28 @@ const seriesPosts = category
       )
     }
     {
-      (older || newer) && (
+      (navPrev || navNext) && (
         <nav class="post-nav" aria-label="이전 다음 글" data-pagefind-ignore>
-          {older ? (
-            <a class="pn prev" href={postHref(older.data.slug)}>
-              <span class="pn-lbl mono">← 이전 글</span>
-              <span class="pn-title">{older.data.title}</span>
+          {navPrev ? (
+            <a class="pn prev" href={postHref(navPrev.data.slug)}>
+              <span class="pn-lbl mono">{prevLabel}</span>
+              <span class="pn-title">{navPrev.data.title}</span>
             </a>
           ) : (
             <span class="pn prev empty">
-              <span class="pn-lbl mono">← 이전 글</span>
-              <span class="pn-title pn-muted">첫 글입니다</span>
+              <span class="pn-lbl mono">{prevLabel}</span>
+              <span class="pn-title pn-muted">{prevEmpty}</span>
             </span>
           )}
-          {newer ? (
-            <a class="pn next" href={postHref(newer.data.slug)}>
-              <span class="pn-lbl mono">다음 글 →</span>
-              <span class="pn-title">{newer.data.title}</span>
+          {navNext ? (
+            <a class="pn next" href={postHref(navNext.data.slug)}>
+              <span class="pn-lbl mono">{nextLabel}</span>
+              <span class="pn-title">{navNext.data.title}</span>
             </a>
           ) : (
             <span class="pn next empty">
-              <span class="pn-lbl mono">다음 글 →</span>
-              <span class="pn-title pn-muted">최신 글입니다</span>
+              <span class="pn-lbl mono">{nextLabel}</span>
+              <span class="pn-title pn-muted">{nextEmpty}</span>
             </span>
           )}
         </nav>
@@ -354,6 +396,64 @@ const seriesPosts = category
     font-weight: 500;
     line-height: 1.4;
     letter-spacing: -0.01em;
+  }
+
+  .series-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .s-row {
+    display: flex;
+    gap: 14px;
+    align-items: baseline;
+    padding: 11px 0;
+    border-bottom: 1px solid var(--hair);
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .s-item:last-child .s-row {
+    border-bottom: none;
+  }
+
+  a.s-row:hover .s-title {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .s-num {
+    flex: none;
+    width: 26px;
+    color: var(--g-45);
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .s-here {
+    flex: none;
+    margin-left: auto;
+    align-self: center;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--g-45);
+  }
+
+  .s-item.current {
+    border-left: 2px solid var(--ink);
+  }
+
+  .s-item.current .s-row {
+    padding-left: 14px;
+  }
+
+  .s-item.current .s-num,
+  .s-item.current .s-title {
+    color: var(--ink);
+    font-weight: 700;
   }
 
   @media (max-width: 560px) {

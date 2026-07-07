@@ -13,6 +13,9 @@ legacy:
   tistoryId: '113'
   sourceHtml: 113/113.html
   sourceHash: 'sha256:290b5a7396ec6a953edfaf671a9c3e72f542cb44867963e11779393df36e1f2b'
+series:
+  name: "InnoDB와 PostgreSQL 내부 구조"
+  order: 1
 ---
 
 이 글은 MVCC를 이론에서 시작해 실습으로 내려오는 순서로 정리한 글이다. 먼저 MVCC 가 왜 필요한지에 대해서 이해하고, MySQL과 PostgreSQL이 MVCC를 구현한 방식에 대해서 간단히 살펴본다. 마지막으로 간단한 SQL 실습을 통해서 MVCC가 동작함을 확인한다.

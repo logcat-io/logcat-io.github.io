@@ -15,6 +15,9 @@ legacy:
   tistoryId: '125'
   sourceHtml: 125/125.html
   sourceHash: 'sha256:a5a8de63745e12f076b14c372a21a46e13a028b1ec7ae53ba8221cfaaa466351'
+series:
+  name: "InnoDB와 PostgreSQL 내부 구조"
+  order: 5
 ---
 
 MySQL/InnoDB와 PostgreSQL을 같이 공부하다 보면 같은 단어가 계속 나온다.

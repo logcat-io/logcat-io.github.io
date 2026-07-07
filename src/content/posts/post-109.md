@@ -24,6 +24,9 @@ legacy:
   tistoryId: '109'
   sourceHtml: 109/109.html
   sourceHash: 'sha256:0485b888f32bcadd7a586d448088b50d4aa61cf7f0dc23331a879cd809bf4039'
+series:
+  name: "배송 권역 시스템"
+  order: 4
 ---
 
 > 음식 배달 앱처럼 기사 위치를 실시간으로 보여주면 되지 않을까?

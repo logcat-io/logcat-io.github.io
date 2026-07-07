@@ -19,6 +19,9 @@ legacy:
   tistoryId: '120'
   sourceHtml: '120/120-[3편]-워커-여럿과-SKIP-LOCKED,-그리고-claim_token.html'
   sourceHash: 'sha256:385f6b82bdd402fbe33a1a2e8821c1ddeb5acca028ce2d4ad9ef6fb4567274ef'
+series:
+  name: "신뢰성 있는 웹훅 디스패처"
+  order: 4
 ---
 
 worker 하나의 처리량은 곧 한계다. 여러 개 돌리면 된다 — 그 순간 같은 PENDING을 둘이 집는 문제가 생긴다.

@@ -73,3 +73,36 @@ export async function getPostsByTag(tag: string): Promise<PostEntry[]> {
 
   return posts.filter((post) => post.data.tags.some((candidate) => normalizeTag(candidate) === normalized));
 }
+
+export interface SeriesContext {
+  name: string;
+  members: PostEntry[];
+  index: number; // 현재 글의 0-based 위치
+  prev: PostEntry | null;
+  next: PostEntry | null;
+}
+
+// 같은 series.name 을 가진 글들을 series.order(동률이면 pubDate) 순으로 묶고,
+// 현재 글의 위치와 앞/뒤 편을 계산한다. series 필드가 없으면 null.
+export function getSeriesContext(post: PostEntry, all: PostEntry[]): SeriesContext | null {
+  const series = post.data.series;
+  if (!series) return null;
+
+  const members = all
+    .filter((p) => p.data.series?.name === series.name)
+    .sort(
+      (a, b) =>
+        (a.data.series?.order ?? 0) - (b.data.series?.order ?? 0) ||
+        a.data.pubDate.valueOf() - b.data.pubDate.valueOf(),
+    );
+
+  const index = members.findIndex((p) => p.id === post.id);
+
+  return {
+    name: series.name,
+    members,
+    index,
+    prev: index > 0 ? members[index - 1] : null,
+    next: index >= 0 && index < members.length - 1 ? members[index + 1] : null,
+  };
+}

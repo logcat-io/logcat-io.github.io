@@ -19,6 +19,9 @@ legacy:
   tistoryId: '121'
   sourceHtml: 121/121.html
   sourceHash: 'sha256:3d02b859fa73f29dbd93aa86006ceaaf78d6c3539a7d1447d9f2d69ba9d2ac65'
+series:
+  name: "신뢰성 있는 웹훅 디스패처"
+  order: 5
 ---
 
 3편 끝의 숙제.

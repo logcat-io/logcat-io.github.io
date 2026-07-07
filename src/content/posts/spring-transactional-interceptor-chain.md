@@ -11,6 +11,9 @@ tags:
   - proxy
 category: spring
 draft: false
+series:
+  name: "스프링 프록시와 트랜잭션"
+  order: 3
 ---
 
 `@Transactional`이 어떻게 도는지 물으면 흔히 이런 그림을 그린다.

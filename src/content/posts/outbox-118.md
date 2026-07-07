@@ -20,6 +20,9 @@ legacy:
   tistoryId: '118'
   sourceHtml: '118/118-[1편]-유실은-어디서-생기나-—-outbox로-잃을-틈을-없애기.html'
   sourceHash: 'sha256:a9e65bd34b49476f43ef288485dd777a1eec20c78b7e76cff15edcbf736b10f9'
+series:
+  name: "신뢰성 있는 웹훅 디스패처"
+  order: 2
 ---
 
 0편에서 전송이 "한 번 호출하고 끝이라 실패하면 증발"이라고 적었다. 정확히 어디서 사라지는지를 이 글에서 본다.

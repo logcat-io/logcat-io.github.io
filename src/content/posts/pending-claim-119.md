@@ -18,6 +18,9 @@ legacy:
   tistoryId: '119'
   sourceHtml: '119/119-[2편]-워커가-PENDING을-집어-보낸다-—-claim과-재시도.html'
   sourceHash: 'sha256:3d665652329f3df119f17c624a9108c7a652d7976d93c21b96921cbff30cef18'
+series:
+  name: "신뢰성 있는 웹훅 디스패처"
+  order: 3
 ---
 
 1편에서 outbox에 PENDING이 쌓이는 데까지 만들었다. 집어서 보내는 주체는 없었다. 이번 편이 그 worker다.

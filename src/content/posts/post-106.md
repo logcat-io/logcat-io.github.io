@@ -18,6 +18,9 @@ legacy:
   tistoryId: '106'
   sourceHtml: 106/106.html
   sourceHash: 'sha256:07a497e267ff16dd894ba9641f7e09d86611c615549449602a4bd77672432ca5'
+series:
+  name: "배송 권역 시스템"
+  order: 2
 ---
 
 1편에서는 “수도권 새벽 배송 3만 건을 어떻게 배정·경로화할 것인가”를 문제 정의와 전체 구조 중심으로 정리했다.  
