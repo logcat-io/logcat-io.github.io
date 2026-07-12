@@ -1,7 +1,7 @@
 ---
 title: "[DB] PostgreSQL 상태 컬럼, ENUM일까 문자열일까"
 description: "PostgreSQL에서 상태 값을 ENUM 타입으로 박을지 문자열로 둘지. 성능이 아니라 값 집합이 어떻게 변하느냐로 갈린다는 기준을, 흔한 오해부터 걷어내며 정리한다."
-pubDate: "2026-07-05T22:34:00+09:00"
+pubDate: "2026-07-12T22:34:00+09:00"
 dateSource: manual
 slug: postgres-enum-vs-text
 tags:
