@@ -16,6 +16,9 @@ tags:
   - Network
   - Tomcat
 category: Language/Go
+series:
+  name: "Go로 만드는 tinyredis"
+  order: 1
 draft: false
 ---
 
