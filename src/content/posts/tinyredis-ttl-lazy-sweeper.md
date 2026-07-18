@@ -14,7 +14,7 @@ category: Language/Go
 series:
   name: "Go로 만드는 tinyredis"
   order: 4
-draft: true
+draft: false
 ---
 
 

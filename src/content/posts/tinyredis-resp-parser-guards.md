@@ -14,7 +14,7 @@ category: Language/Go
 series:
   name: "Go로 만드는 tinyredis"
   order: 3
-draft: true
+draft: false
 ---
 
 Go로 만들고 있는 미니 Redis(tinyredis), 이번엔 RESP 파서 안쪽 얘기다.
