@@ -10,6 +10,7 @@ const TAG_BLOCKLIST = new Set([
 
 // 한/영 동의어 통합 — 같은 개념의 한글·영문 태그를 한 키로 병합해 색인 일관성 확보
 const TAG_ALIAS: Record<string, string> = {
+  golang: 'go',
   자바: 'java',
   코틀린: 'kotlin',
   스프링: 'spring',
