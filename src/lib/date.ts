@@ -8,7 +8,3 @@ const kstDateFormatter = new Intl.DateTimeFormat('ko-KR', {
 export function formatKstDate(date: Date): string {
   return kstDateFormatter.format(date).replace(/\.\s?/g, '.').replace(/\.$/, '');
 }
-
-export function toRssDate(date: Date): Date {
-  return date;
-}
