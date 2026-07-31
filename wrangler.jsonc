@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
-  "name": "logcat-io-github-io",
+  "name": "logcat-io",
   "compatibility_date": "2026-08-01",
   "assets": {
     "directory": "./dist/",
