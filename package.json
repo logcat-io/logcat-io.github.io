@@ -25,6 +25,7 @@
     "gray-matter": "^4.0.3",
     "pagefind": "^1.5.2",
     "turndown": "^7.2.4",
-    "turndown-plugin-gfm": "^1.0.2"
+    "turndown-plugin-gfm": "^1.0.2",
+    "wrangler": "^4.118.0"
   }
 }
