@@ -16,7 +16,7 @@ tags:
   - animation
   - real-time
   - ui
-category: Project
+category: Language/TypeScript
 cover: /images/posts/cross-tab-animal-club-112/broadcastchannel.gif
 draft: false
 legacy:

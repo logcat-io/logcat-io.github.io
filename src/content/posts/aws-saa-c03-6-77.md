@@ -13,7 +13,7 @@ tags:
   - SAA-C03
   - 솔루션
   - 아키텍트
-category: Certificate
+category: Infra/AWS
 cover: /images/posts/aws-saa-c03-6-77/screenshot-2024-05-12-at-10-16-35-pm.png
 draft: false
 legacy:

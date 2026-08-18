@@ -9,7 +9,7 @@ tags:
   - proxy
   - aop
   - pointcut
-category: spring
+category: Spring Framework/Spring & Spring Boot
 draft: false
 series:
   name: "스프링 프록시와 트랜잭션"

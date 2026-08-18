@@ -13,7 +13,7 @@ tags:
   - cpu
   - 바운드
   - IO
-category: Computer Science
+category: Computer Science/Operating System
 draft: false
 legacy:
   tistoryId: '84'

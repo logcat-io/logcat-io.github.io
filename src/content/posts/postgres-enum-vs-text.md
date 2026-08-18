@@ -10,7 +10,7 @@ tags:
   - enum
   - schema
   - ddl
-category: database
+category: Computer Science/Database
 draft: false
 ---
 

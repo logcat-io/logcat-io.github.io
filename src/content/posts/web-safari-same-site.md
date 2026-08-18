@@ -11,7 +11,7 @@ tags:
   - cookie
   - samesite
   - itp
-category: web
+category: Computer Science/Network
 draft: false
 ---
 
