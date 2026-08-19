@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-46 0 946 726" width="946" height="726" role="img"
+     aria-label="상태 변경 트랜잭션에서 Outbox, Kafka, Redis Pub/Sub을 거쳐 모든 인스턴스의 SSE 연결에 도달하는 파이프라인. 앞쪽 절반은 도달이 보장되고 뒤쪽 절반은 보장되지 않는다.">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#0a0a0a"/>
+    </marker>
+    <marker id="ag" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#8c8c8c"/>
+    </marker>
+    <style>
+      .k{font-family:Pretendard,system-ui,-apple-system,sans-serif;font-size:15px;font-weight:700;fill:#0a0a0a}
+      .m{font-family:'Space Mono',ui-monospace,Menlo,monospace;font-size:12.5px;fill:#262626}
+      .n{font-family:Pretendard,system-ui,-apple-system,sans-serif;font-size:12.5px;fill:#6b6b6b}
+      .t{font-family:'Space Mono',ui-monospace,Menlo,monospace;font-size:10.5px;fill:#8c8c8c;letter-spacing:2.4px}
+      .b{fill:#ffffff;stroke:#0a0a0a;stroke-width:1}
+      .bs{fill:#f5f5f5;stroke:#0a0a0a;stroke-width:1}
+      .ln{stroke:#0a0a0a;stroke-width:1;fill:none}
+      .lng{stroke:#8c8c8c;stroke-width:1;fill:none}
+    </style>
+  </defs>
+
+  <rect x="-46" y="0" width="946" height="726" fill="#ffffff"/>
+
+  <!-- ── 보장 구간 밴드 ── -->
+  <path class="ln" d="M100 46 h-12 v320 h12"/>
+  <text class="t" x="76" y="200" text-anchor="end">도달 보장</text>
+  <text class="n" x="76" y="220" text-anchor="end" font-size="11">Outbox 가 진다</text>
+  <path class="lng" d="M100 524 h-12 v176 h12" stroke-dasharray="3 3"/>
+  <text class="t" x="76" y="606" text-anchor="end" fill="#8c8c8c">보장 없음</text>
+  <text class="n" x="76" y="626" text-anchor="end" font-size="11">fire-and-forget</text>
+
+  <!-- 1. 상태 변경 트랜잭션 -->
+  <rect class="bs" x="110" y="46" width="560" height="104" rx="2"/>
+  <text class="k" x="130" y="72">인스턴스 A — 상태 변경 트랜잭션</text>
+  <line class="ln" x1="130" y1="84" x2="650" y2="84" stroke="#b3b3b3"/>
+  <text class="m" x="130" y="106">deliveries        UPDATE</text>
+  <text class="m" x="130" y="130">outbox_events     INSERT</text>
+  <text class="n" x="470" y="130">← 발행할 "의도"만 적는다</text>
+  <text class="n" x="686" y="100">롤백되면 둘 다 사라진다.</text>
+  <text class="n" x="686" y="120">유령 이벤트가 나올 자리가</text>
+  <text class="n" x="686" y="140">구조적으로 없다</text>
+
+  <line class="ln" x1="390" y1="150" x2="390" y2="180" marker-end="url(#a)"/>
+  <text class="n" x="400" y="170">commit</text>
+
+  <!-- 2. outbox 테이블 -->
+  <rect class="b" x="110" y="186" width="560" height="62" rx="2"/>
+  <text class="m" x="130" y="212">outbox_events</text>
+  <text class="n" x="130" y="234">status = PENDING</text>
+  <text class="n" x="686" y="212">별도 워커가 집어 간다</text>
+  <text class="m" x="686" y="234" fill="#6b6b6b">FOR UPDATE SKIP LOCKED</text>
+
+  <line class="ln" x1="390" y1="248" x2="390" y2="284" marker-end="url(#a)"/>
+  <text class="n" x="400" y="270">발행</text>
+
+  <!-- 3. Kafka -->
+  <rect class="b" x="110" y="290" width="560" height="76" rx="2"/>
+  <text class="k" x="130" y="316">Kafka</text>
+  <text class="m" x="196" y="316">delivery-status-changed</text>
+  <rect class="b" x="130" y="330" width="112" height="22" rx="1"/>
+  <text class="m" x="186" y="346" text-anchor="middle" fill="#6b6b6b">partition 0</text>
+  <rect class="b" x="252" y="330" width="112" height="22" rx="1"/>
+  <text class="m" x="308" y="346" text-anchor="middle" fill="#6b6b6b">partition 1</text>
+  <rect class="b" x="374" y="330" width="112" height="22" rx="1"/>
+  <text class="m" x="430" y="346" text-anchor="middle" fill="#6b6b6b">partition 2</text>
+  <text class="n" x="500" y="346">key = deliveryId</text>
+  <text class="n" x="686" y="316">한 파티션은 그룹 안에서</text>
+  <text class="n" x="686" y="336">정확히 한 컨슈머에게만</text>
+  <text class="n" x="686" y="356">배정된다</text>
+
+  <line class="ln" x1="390" y1="366" x2="390" y2="416" marker-end="url(#a)"/>
+  <text class="n" x="400" y="396">한 대만 받는다</text>
+
+  <!-- 4. 컨슈머 -->
+  <rect class="bs" x="220" y="422" width="340" height="56" rx="2"/>
+  <text class="k" x="240" y="447">인스턴스 ? (컨슈머)</text>
+  <text class="n" x="240" y="467">어느 인스턴스일지는 배정이 정한다</text>
+
+  <line class="ln" x1="390" y1="478" x2="390" y2="518" marker-end="url(#a)"/>
+  <text class="n" x="400" y="503">publish</text>
+
+  <!-- 5. Redis -->
+  <rect class="b" x="110" y="524" width="560" height="58" rx="2" stroke-dasharray="4 3"/>
+  <text class="k" x="130" y="549">Redis Pub/Sub</text>
+  <text class="m" x="252" y="549">channel: delivery-status</text>
+  <text class="n" x="130" y="570">저장하지 않는다 — 지금 구독 중인 모두에게 뿌리고 끝</text>
+  <text class="n" x="686" y="549">팬아웃만 여기서 한다.</text>
+  <text class="n" x="686" y="569">Kafka 그룹은 1개 그대로</text>
+
+  <!-- fan-out -->
+  <path class="lng" d="M390 582 v20 M195 602 h390 M195 602 v22 M390 602 v22 M585 602 v22"/>
+  <path class="lng" d="M195 616 v10" marker-end="url(#ag)"/>
+  <path class="lng" d="M390 616 v10" marker-end="url(#ag)"/>
+  <path class="lng" d="M585 616 v10" marker-end="url(#ag)"/>
+
+  <!-- 6. 전 인스턴스 구독 -->
+  <rect class="b" x="110" y="632" width="170" height="62" rx="2"/>
+  <text class="k" x="126" y="656">인스턴스 A</text>
+  <text class="n" x="126" y="678">로컬 emitter 확인</text>
+  <rect class="b" x="305" y="632" width="170" height="62" rx="2"/>
+  <text class="k" x="321" y="656">인스턴스 B</text>
+  <text class="n" x="321" y="678">로컬 emitter 확인</text>
+  <rect class="b" x="500" y="632" width="170" height="62" rx="2"/>
+  <text class="k" x="516" y="656">인스턴스 C</text>
+  <text class="n" x="516" y="678">로컬 emitter 확인</text>
+  <text class="n" x="686" y="668">연결을 가진 인스턴스만</text>
+  <text class="n" x="686" y="688">SSE 로 흘려보낸다</text>
+
+  <text class="t" x="110" y="716">SSE · 연결이 유지되는 동안만 도달한다</text>
+</svg>
