@@ -10,9 +10,15 @@ const { variant } = Astro.props;
 
 {
   variant === 'nav' && (
-    <span class="visit visit--nav" data-visit hidden aria-label="방문자 — 오늘 / 누적">
+    <span
+      class="visit visit--nav"
+      data-visit
+      hidden
+      aria-label="방문자 — 최근 7일 / 누적"
+      title="최근 7일 / 누적 방문자 · 최대 4시간 지연"
+    >
       <span class="visit-dot" aria-hidden="true" />
-      <b data-gc-today>–</b>
+      <b data-gc-week>–</b>
       <span class="visit-sep" aria-hidden="true">/</span>
       <b data-gc-total>–</b>
     </span>
@@ -21,8 +27,8 @@ const { variant } = Astro.props;
 {
   variant === 'footer' && (
     <span class="visit visit--footer" data-visit hidden>
-      {' · TODAY '}
-      <b data-gc-today>–</b>
+      {' · 7D '}
+      <b data-gc-week>–</b>
       {' · TOTAL '}
       <b data-gc-total>–</b>
     </span>
@@ -31,31 +37,42 @@ const { variant } = Astro.props;
 
 <script>
   const ENDPOINT = 'https://logcat.goatcounter.com/counter/TOTAL.json';
-  // KST 기준 오늘(YYYY-MM-DD) — en-CA 로케일이 ISO 형식을 보장. deployDate 와 동일한 타임존.
-  const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Seoul' }).format(new Date());
+  // 수집 시작일. start 를 안 주면 전체 기간이 아니라 더 좁은 창이 잡혀 누적이 실제보다 적게 나온다.
+  const SITE_START = '2026-06-21';
+
+  // 공개 카운터 응답은 4시간 캐시되고, 모르는 쿼리 파라미터는 캐시 키에서 빠져 무력화가 안 된다.
+  // "오늘" 을 쓰면 자정부터 몇 시간 동안 0 에 굳는다. 7일 창이면 같은 지연이 오차로 묻힌다.
+  const kstDate = (d: Date) =>
+    new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Seoul' }).format(d);
+  const weekStart = kstDate(new Date(Date.now() - 6 * 86400000));
+
+  const fetchCount = async (start: string): Promise<number | null> => {
+    try {
+      const res = await fetch(`${ENDPOINT}?start=${start}`);
+      if (!res.ok) return null;
+      const body = await res.json();
+      // count_unique = 방문자, count = 페이지뷰. 라벨이 방문자이므로 전자를 쓴다.
+      const n = Number(body.count_unique ?? body.count);
+      return Number.isFinite(n) ? n : null;
+    } catch {
+      return null;
+    }
+  };
 
   (async () => {
-    try {
-      const [totalRes, todayRes] = await Promise.all([
-        fetch(ENDPOINT),
-        fetch(`${ENDPOINT}?start=${today}`),
-      ]);
-      if (!totalRes.ok) return; // 카운터 비활성/오류 → 숨김 유지
-      const total = await totalRes.json();
-      const todayData = todayRes.ok ? await todayRes.json() : null;
+    const [total, week] = await Promise.all([fetchCount(SITE_START), fetchCount(weekStart)]);
+    if (total === null) return; // 카운터 비활성/오류 → 숨김 유지
 
+    const put = (sel: string, v: number) =>
       document
-        .querySelectorAll<HTMLElement>('[data-gc-total]')
-        .forEach((el) => { el.textContent = total.count; });
-      document
-        .querySelectorAll<HTMLElement>('[data-gc-today]')
-        .forEach((el) => { el.textContent = todayData ? todayData.count : '0'; });
-      document
-        .querySelectorAll<HTMLElement>('[data-visit]')
-        .forEach((el) => { el.hidden = false; });
-    } catch {
-      /* 네트워크 오류 → placeholder 숨김 유지 */
-    }
+        .querySelectorAll<HTMLElement>(sel)
+        .forEach((el) => { el.textContent = v.toLocaleString('ko-KR'); });
+
+    put('[data-gc-total]', total);
+    put('[data-gc-week]', week ?? 0);
+    document
+      .querySelectorAll<HTMLElement>('[data-visit]')
+      .forEach((el) => { el.hidden = false; });
   })();
 </script>
 
