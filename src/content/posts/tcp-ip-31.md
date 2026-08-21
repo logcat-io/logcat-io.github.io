@@ -21,9 +21,9 @@ legacy:
   sourceHash: 'sha256:fe08c626f96aab3e4592765b1ab44ae4dc296ad3b7343beae812c012686028ae'
 ---
 
-이전 글: [2023.05.26 - \[Computer Science/Network\] - \[네트워크 원리\] 웹 브라우저](https://ditto-dev.tistory.com/29)
+이전 글: [2023.05.26 - \[Computer Science/Network\] - \[네트워크 원리\] 웹 브라우저](/posts/post-29/)
 
-[\[네트워크 원리\] 웹 브라우저](https://ditto-dev.tistory.com/29)
+[\[네트워크 원리\] 웹 브라우저](/posts/post-29/)
 
 이전 글에서는 **브라우저에서 메시지를 송수신하는 과정**에 대해서 알아보았다. 
 

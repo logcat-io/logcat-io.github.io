@@ -45,7 +45,7 @@ public class SampleDto {
 
 **Spring Boot**는 **java** 객체를 **JSON으로** 변환하기 위해서 내부적으로 **Jackson** **라이브러리**를 사용해서 직렬화 과정을 수행합니다.
 
-(만약 직렬화에 대해서 모른다면 [\[JAVA\] 직렬화(Serialization)란?](https://ditto-dev.tistory.com/34) 글에 간단히 정리해 두었습니다.)
+(만약 직렬화에 대해서 모른다면 [\[JAVA\] 직렬화(Serialization)란?](/posts/serialization-34/) 글에 간단히 정리해 두었습니다.)
 
 이때 **Jackson** 라이브러리는 **자바빈 규약**(JavaBeans specification)을 따르는데, 자바빈 규약은 다음과 같습니다.
 

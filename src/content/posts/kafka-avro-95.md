@@ -26,7 +26,7 @@ Kafka 환경에서 데이터를 주고받을 때 **직렬화(Serialization)** �
 
 만약, 직렬화에 대해서 모른다면 다음의 글을 먼저 읽어보는 것을 추천한다.
 
-[2023.08.20 - \[Language/Java\] - \[JAVA\] 직렬화(Serialization)란?](https://ditto-dev.tistory.com/34)
+[2023.08.20 - \[Language/Java\] - \[JAVA\] 직렬화(Serialization)란?](/posts/serialization-34/)
 
 프로듀서는 객체를 바이트 배열로 변환해 토픽에 전송하고, 컨슈머는 이를 다시 객체로 복원(deserialize)한다. 이 과정에서 단순히 “객체 → 바이트” 변환만 필요하다면 **커스텀 시리얼라이저(Custom Serializer)** 를 직접 구현할 수도 있다.
 

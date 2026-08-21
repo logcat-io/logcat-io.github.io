@@ -22,9 +22,9 @@ legacy:
   sourceHash: 'sha256:70f82fae0eaae2b664f55abb4bc3f25e89630308bd3df6e61d8e26e6c150f208'
 ---
 
-이전 글 참고: [2023.10.12 - \[Java\] - \[JAVA\] String 클래스의 특징](https://ditto-dev.tistory.com/43)
+이전 글 참고: [2023.10.12 - \[Java\] - \[JAVA\] String 클래스의 특징](/posts/string-43/)
 
-[\[JAVA\] String 클래스의 특징](https://ditto-dev.tistory.com/43)
+[\[JAVA\] String 클래스의 특징](/posts/string-43/)
 
 이전 글에서 Java의 String 클래스의 특징을 알아볼 때, 객체의 공유 특성을 설명하면서 **_String constant pool_**에 대해서 언급했다. 이번 글에서는 String constant pool에 대해서 설명하고자 한다.
 

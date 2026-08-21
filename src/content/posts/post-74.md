@@ -29,9 +29,9 @@ legacy:
 
 프로젝트를 수행하면서 동시성 문제를 redisson을 활용하여 해결하였다. 해당 글은 아래에서 확인할 수 있다.
 
-[\[Spring & Spring Boot\] - \[Redisson\] SpringBoot + Redisson을 활용한 동시성 문제 해결하기](https://ditto-dev.tistory.com/73)
+[\[Spring & Spring Boot\] - \[Redisson\] SpringBoot + Redisson을 활용한 동시성 문제 해결하기](/posts/spring-boot-redisson-73/)
 
-[\[Redisson\] SpringBoot + Redisson을 활용한 동시성 문제 해결하기](https://ditto-dev.tistory.com/73)
+[\[Redisson\] SpringBoot + Redisson을 활용한 동시성 문제 해결하기](/posts/spring-boot-redisson-73/)
 
 하지만 문제를 해결하기 위해서 임계 영역에 대한 락을 발행하였지만, **데이터베이스에 값이 갱신되지 않는 상황이 발생**하였다.
 
