@@ -34,7 +34,7 @@ legacy:
 
 ## 2\. 중점적으로 봐야 하는 내용
 
--   Spring Batch 6에서 **Chunk 기반 Step 쿼리가 1회만 실행되는 버그**가 존재했다
+-   Spring Batch 6에서 **같은 Step 을 두 번째로 실행하면 아무것도 하지 않고 끝나는 버그**가 존재했다
 -   Step / Job 상태는 COMPLETED 이지만 실제 데이터 처리는 수행되지 않았다
 -   동일 코드가 Spring Batch 5.x 에서는 정상 동작했다
 -   공식 GitHub 이슈로 등록된 **회귀(regression) 버그**였다
@@ -49,9 +49,9 @@ legacy:
 문제는 Chunk 기반 Step 실행 시 다음과 같은 형태로 나타났다.
 
 -   JDBC 기반 ItemReader 사용
--   Reader 쿼리는 **최초 1회만 실행**
--   이후 Chunk 반복이 진행되지 않음
--   readCount / writeCount 증가 없음
+-   **첫 실행은 정상** — 읽고, 쓰고, 카운트도 맞았다
+-   **두 번째 실행부터 Reader 쿼리가 아예 나가지 않음**
+-   readCount / writeCount 0
 -   Step / Job 상태는 정상적으로 COMPLETED
 
 즉, **실제 데이터는 처리되지 않았지만 배치는 성공한 것처럼 종료되는 상태**였다.
@@ -67,10 +67,9 @@ legacy:
 -   Reader open / close lifecycle 문제
 -   메타 DB / 도메인 DB 분리로 인한 트랜잭션 이슈
 
-그러나 다음 사실이 명확했다.
+가장 먼저 걷어낸 건 JobParameter 쪽이었다. 이 잡은 실행 시각을 파라미터로 받는다. 파라미터가 매번 다르니 **JobInstance 도 매번 새로 만들어진다.** 같은 JobInstance 를 다시 돌릴 때 Spring Batch 가 막아서는 그 경로가 아니라는 뜻이다. 메타 테이블에도 실행마다 새 `JOB_INSTANCE_ID` 가 찍혀 있었다.
 
--   SQL 로그 상 Reader 쿼리는 1회만 실행
--   Chunk 반복 로직 자체가 실행되지 않음
+새 JobInstance 인데 첫 실행만 되고 두 번째부터 안 된다. 그러면 남는 건 **JobInstance 를 넘어서 살아남는 무언가**다. 애플리케이션 코드에는 그런 상태를 둔 적이 없었다.
 
 이 시점에서 **Spring Batch 6 내부 동작 변경 또는 버그 가능성**을 열어두고 조사하였다. 
 
@@ -104,7 +103,9 @@ private static class ChunkTracker {
 -   `noMoreItems()` 가 한 번 `false` 로 바꾸면 그 인스턴스에서는 되돌릴 방법이 없다
 -   Step 이 끝난 뒤 이 상태가 그대로 남아, 다음 실행이 시작하자마자 “더 읽을 게 없다”로 판정된다
 
-여기까지 오고 나서 이슈를 찾아봤다. [#5126](https://github.com/spring-projects/spring-batch/issues/5126) 에 같은 내용이 이미 올라와 있었다.
+breakpoint 를 걸고 두 번 돌려 보니 그대로였다. 첫 실행은 진입 시점에 `moreItems` 가 `true`, 두 번째 실행은 **진입 시점에 이미 `false`.** 필드 초기화로 한 번 받은 `true` 를 첫 실행이 다 쓰고 나간 것이다.
+
+초기화가 빠졌다고 판단하고 이슈를 찾아봤다. [#5126](https://github.com/spring-projects/spring-batch/issues/5126) 에 같은 내용이 이미 올라와 있었다.
 
 > After the reader is exhausted, the `chunkTracker` switches to `false`, but **that flag is never reset back to `true`**. The consequence is that starting with the second invocation of the step, it will exit immediately and never do anything.
 
@@ -132,17 +133,15 @@ private static class ChunkTracker {
 
 **"되돌리는 길이 없다"까지는 코드를 읽어서 알았고, "공유하고 있었다"는 수정본을 보고 알았다.**
 
-#### 문제가 되는 이유
+#### 왜 실행 사이에 상태가 남았나
 
-이 부분이 문제가 되는 이유는 다음과 같다.
+`moreItems` 를 들고 있는 건 Reader 가 아니라 **Step 구현체인 `ChunkOrientedStep`** 이다. 그리고 Step 은 빈으로 등록돼 애플리케이션이 떠 있는 동안 같은 인스턴스로 남는다.
 
--   JdbcPagingItemReader는 일반적으로 **빈으로 등록되어 싱글톤으로 동작**
--   내부 상태(moreItems 등)는 인스턴스 변수로 관리됨
--   한 번 false로 변경된 상태가 reset 되지 않으면
-    -   이후 Chunk 반복 시에도 “더 이상 읽을 데이터가 없다”고 판단
-    -   결과적으로 **Chunk 반복이 즉시 종료**
+-   JobInstance 는 실행마다 새로 만들어진다 — 파라미터를 바꾼 게 소용없었던 이유다
+-   반면 **Step 빈은 그대로다.** 그 필드에 담긴 `moreItems` 도 그대로 넘어간다
+-   `false` 를 되돌릴 자리가 없으니, 두 번째 실행은 첫 chunk 를 시작하기도 전에 끝난다
 
-즉, Reader 내부 상태가 정상적으로 초기화되지 않으면서 **실제 데이터가 존재함에도 Step 이 종료되는 상황**이 발생한 것이다.
+처음에 @StepScope 를 의심한 게 빗나간 이유이기도 하다. 상태가 남은 자리는 Reader 가 아니었다.
 
 이 동작은 애플리케이션 코드나 설정 문제라기보다는 **Spring Batch 6 내부 Chunk 반복 처리 로직의 회귀(regression) 문제**로 판단할 수 있는 지점이었다.
 
@@ -194,7 +193,7 @@ dependencyManagement {
 -   메이저 버전 도입 시에는 **프레임워크 내부 회귀 버그 가능성**을 항상 염두에 두어야 한다
 -   이상 동작을 무조건 구현 문제로 단정하지 말고, 공식 이슈를 함께 확인하는 습관이 필요하다
 -   “릴리스 대기 중인 패치”를 전제로 한 **운영 리스크 관리 전략**도 설계의 일부이다
--   Spring Batch 6 자체는 충분히 사용할 만한 버전이며, **6.0.1 패치로 안정성이 크게 개선되었다**
+-   6.0.1 에서 이 버그는 해결됐다. 그 밖의 영역까지 안정성을 재본 건 아니다
 
 신규 버전 도입은 단순한 업그레이드가 아니라, **검증과 리스크 관리까지 포함한 하나의 작업**이라는 점을 다시 체감한 경험이었다.
 
