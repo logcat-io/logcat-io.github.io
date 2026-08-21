@@ -104,6 +104,34 @@ private static class ChunkTracker {
 -   `noMoreItems()` 가 한 번 `false` 로 바꾸면 그 인스턴스에서는 되돌릴 방법이 없다
 -   Step 이 끝난 뒤 이 상태가 그대로 남아, 다음 실행이 시작하자마자 “더 읽을 게 없다”로 판정된다
 
+여기까지 오고 나서 이슈를 찾아봤다. [#5126](https://github.com/spring-projects/spring-batch/issues/5126) 에 같은 내용이 이미 올라와 있었다.
+
+> After the reader is exhausted, the `chunkTracker` switches to `false`, but **that flag is never reset back to `true`**. The consequence is that starting with the second invocation of the step, it will exit immediately and never do anything.
+
+#### 6.0.1 에서 어떻게 고쳐졌나
+
+수정 커밋([`69665d8`](https://github.com/spring-projects/spring-batch/commit/69665d83d8556d9c23a965ee553972a277221d83), *Fix chunk tracker lifecycle in chunk-oriented step*)을 열어 보니 두 가지가 같이 바뀌어 있었다.
+
+```diff
+- private final ChunkTracker chunkTracker = new ChunkTracker();
++ private final ThreadLocal<ChunkTracker> chunkTracker = ThreadLocal.withInitial(ChunkTracker::new);
+
+- private boolean moreItems = true;        // 필드 초기화로만 true 가 됐다
++ private boolean moreItems;
++ void init()  { this.moreItems = true; }  // 되돌리는 길이 생겼다
++ void reset() { this.moreItems = false; }
+
+- this.chunkTracker.noMoreItems();
++ this.chunkTracker.get().reset();
++ this.chunkTracker.get().init();          // Step 시작 시 호출
+```
+
+내가 만난 건 첫 번째다. `true` 로 되돌리는 자리가 없어서 두 번째 실행부터 곧바로 끝났다. 필드 초기화로만 `true` 가 되니 **인스턴스가 살아 있는 한 다시는 `true` 가 될 수 없었다.**
+
+두 번째는 내가 못 본 문제였다. 트래커를 하나로 공유하고 있어서 같은 Step 을 병렬로 돌리면 서로의 플래그를 끌 수 있다. `ThreadLocal` 로 분리하면서 같이 정리됐다.
+
+**"되돌리는 길이 없다"까지는 코드를 읽어서 알았고, "공유하고 있었다"는 수정본을 보고 알았다.**
+
 #### 문제가 되는 이유
 
 이 부분이 문제가 되는 이유는 다음과 같다.
