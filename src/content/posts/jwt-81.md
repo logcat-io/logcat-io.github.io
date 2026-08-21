@@ -142,6 +142,6 @@ class AuthService:
 
 ## 마무리 요약
 
-<table style="border-collapse: collapse; width: 100%;" border="1" data-end="3133" data-start="2818" data-ke-align="alignLeft"><tbody data-end="3133" data-start="2934"><tr data-end="2985" data-start="2934"><td data-col-size="sm" data-end="2949" data-start="2934">토큰 생성</td><td data-end="2985" data-start="2949" data-col-size="sm">create_access_token() 함수 사용</td></tr><tr data-end="3037" data-start="2986"><td data-col-size="sm" data-end="3001" data-start="2986">토큰 검증</td><td data-end="3037" data-start="3001" data-col-size="sm">decode_access_token() 함수 사용</td></tr><tr data-end="3080" data-start="3038"><td data-col-size="sm" data-end="3052" data-start="3038">로그인 구현</td><td data-end="3080" data-start="3052" data-col-size="sm">이메일 조회 및 비밀번호 검증</td></tr><tr data-end="3133" data-start="3081"><td data-col-size="sm" data-end="3096" data-start="3081">예외 처리</td><td data-end="3133" data-start="3096" data-col-size="sm">HTTPException과 status 활용</td></tr></tbody></table>
+<table style="border-collapse: collapse; width: 100%;" border="1" data-ke-align="alignLeft"><tbody><tr><td data-col-size="sm">토큰 생성</td><td data-col-size="sm">create_access_token() 함수 사용</td></tr><tr><td data-col-size="sm">토큰 검증</td><td data-col-size="sm">decode_access_token() 함수 사용</td></tr><tr><td data-col-size="sm">로그인 구현</td><td data-col-size="sm">이메일 조회 및 비밀번호 검증</td></tr><tr><td data-col-size="sm">예외 처리</td><td data-col-size="sm">HTTPException과 status 활용</td></tr></tbody></table>
 
 FastAPI에서 JWT 인증을 직접 구현하면 비교적 단순하면서도 유연하게 확장할 수 있다.

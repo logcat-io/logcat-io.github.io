@@ -48,7 +48,7 @@ Kafka는 메시지를 “토픽(topic)”으로 분류해 관리한다. **토픽
 
 구성 요소설명
 
-<table style="border-collapse: collapse; width: 100%;" border="1" data-end="1430" data-start="1179" data-ke-align="alignLeft"><tbody data-end="1430" data-start="1216"><tr data-end="1254" data-start="1216"><td data-col-size="sm" data-end="1231" data-start="1216"><b>Producer</b></td><td data-col-size="sm" data-end="1254" data-start="1231">Kafka로 메시지를 전송하는 주체</td></tr><tr data-end="1293" data-start="1255"><td data-col-size="sm" data-end="1270" data-start="1255"><b>Consumer</b></td><td data-col-size="sm" data-end="1293" data-start="1270">Kafka의 메시지를 소비하는 주체</td></tr><tr data-end="1352" data-start="1294"><td data-col-size="sm" data-end="1315" data-start="1294"><b>Consumer Group</b></td><td data-col-size="sm" data-end="1352" data-start="1315">여러 Consumer를 묶은 단위로, 메시지의 오프셋을 공유</td></tr><tr data-end="1385" data-start="1353"><td data-col-size="sm" data-end="1365" data-start="1353"><b>Topic</b></td><td data-col-size="sm" data-end="1385" data-start="1365">메시지를 저장하는 논리적 단위</td></tr><tr data-end="1430" data-start="1386"><td data-col-size="sm" data-end="1399" data-start="1386"><b>Offset</b></td><td data-col-size="sm" data-end="1430" data-start="1399">각 파티션에서 메시지의 고유 번호 (0부터 시작)</td></tr></tbody></table>
+<table style="border-collapse: collapse; width: 100%;" border="1" data-ke-align="alignLeft"><tbody><tr><td data-col-size="sm"><b>Producer</b></td><td data-col-size="sm">Kafka로 메시지를 전송하는 주체</td></tr><tr><td data-col-size="sm"><b>Consumer</b></td><td data-col-size="sm">Kafka의 메시지를 소비하는 주체</td></tr><tr><td data-col-size="sm"><b>Consumer Group</b></td><td data-col-size="sm">여러 Consumer를 묶은 단위로, 메시지의 오프셋을 공유</td></tr><tr><td data-col-size="sm"><b>Topic</b></td><td data-col-size="sm">메시지를 저장하는 논리적 단위</td></tr><tr><td data-col-size="sm"><b>Offset</b></td><td data-col-size="sm">각 파티션에서 메시지의 고유 번호 (0부터 시작)</td></tr></tbody></table>
 
 -   Consumer Group은 offset을 기록해 어디까지 메시지를 읽었는지 추적한다.  
     **\--from-beginning --group** 옵션 사용 시: offset 기록이 없으면 처음부터 읽는다. offset 기록이 있다면, 마지막 읽은 지점 이후부터 읽는다.
@@ -72,7 +72,7 @@ $ bin/kafka-topics.sh --bootstrap-server localhost:9092 \ --alter --topic test.t
 
 조건방식설명
 
-<table style="border-collapse: collapse; width: 100%;" border="1" data-end="2157" data-start="1974" data-ke-align="alignLeft"><tbody data-end="2157" data-start="2014"><tr data-end="2099" data-start="2014"><td data-col-size="sm" data-end="2027" data-start="2014"><b>Key 없음</b></td><td data-col-size="sm" data-end="2062" data-start="2027">Sticky Partitioning (Kafka 2.4+)</td><td data-col-size="sm" data-end="2099" data-start="2062">일정량의 메시지가 채워질 때까지 같은 파티션에 저장 후 이동</td></tr><tr data-end="2157" data-start="2100"><td data-col-size="sm" data-end="2113" data-start="2100"><b>Key 있음</b></td><td data-col-size="sm" data-end="2126" data-start="2113">Hash 기반 분배</td><td data-col-size="sm" data-end="2157" data-start="2126">같은 key의 메시지는 항상 같은 파티션으로 전달</td></tr></tbody></table>
+<table style="border-collapse: collapse; width: 100%;" border="1" data-ke-align="alignLeft"><tbody><tr><td data-col-size="sm"><b>Key 없음</b></td><td data-col-size="sm">Sticky Partitioning (Kafka 2.4+)</td><td data-col-size="sm">일정량의 메시지가 채워질 때까지 같은 파티션에 저장 후 이동</td></tr><tr><td data-col-size="sm"><b>Key 있음</b></td><td data-col-size="sm">Hash 기반 분배</td><td data-col-size="sm">같은 key의 메시지는 항상 같은 파티션으로 전달</td></tr></tbody></table>
 
 ```bash
 $ bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 \
