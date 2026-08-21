@@ -82,31 +82,27 @@ legacy:
 이에 따라 ChunkOrientedStep 까지 breakpoint를 설정하고 실행 흐름을 추적하였다. 그 과정에서 **ChunkTracker 내부의 moreItems 플래그가 갱신되지 않는 현상**을 발견하였다.
 
 ```java
+// spring-batch-core 6.0.0 / ChunkOrientedStep.java:758
 private static class ChunkTracker {
 
     private boolean moreItems = true;
-    private boolean moreItems;
 
     void noMoreItems() {
-    
-    void init() {
-    	this.moreItems = true;
+        this.moreItems = false;
     }
 
-    void reset() {
-	    this.moreItems = false;
+    boolean moreItems() {
+        return this.moreItems;
     }
-    
-    ...
+
+}
 ```
 
--   moreItems는 쿼리 수행 이후
-    -   “다음에 읽을 row가 더 존재하는지”를 판단하는 플래그 변수이다
--   정상적인 경우:
-    -   Chunk 처리 종료 후 reset() 을 통해 상태가 초기화된다
--   문제 상황:
-    -   moreItems가 false로 변경된 이후
-    -   **다음 Chunk 반복 전에 reset 되지 않고 그대로 유지됨**
+여기서 눈에 걸린 건 있는 게 아니라 **없는 것**이었다. `moreItems` 를 `false` 로 바꾸는 길은 있는데, 다시 `true` 로 되돌리는 길이 없다.
+
+-   `moreItems` 는 “다음에 읽을 row 가 더 있는지”를 들고 있는 플래그다
+-   `noMoreItems()` 가 한 번 `false` 로 바꾸면 그 인스턴스에서는 되돌릴 방법이 없다
+-   Step 이 끝난 뒤 이 상태가 그대로 남아, 다음 실행이 시작하자마자 “더 읽을 게 없다”로 판정된다
 
 #### 문제가 되는 이유
 
